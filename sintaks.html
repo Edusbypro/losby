@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Isi Sintaks - Learning Organizer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Lengkapi Pembelajaran - Learning Organizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   
   <style>
@@ -12,117 +12,269 @@
       margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
       background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #ff9a9e, #fecfef);
       background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-      min-height: 100vh; display: flex; justify-content: center; padding: 30px 15px;
+      min-height: 100vh; padding: 40px 15px;
     }
     @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
     
-    .glass-card {
-      background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(15px);
-      border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-      padding: 35px; width: 100%; max-width: 800px;
+    .glass-container {
+      background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(15px);
+      border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      max-width: 900px; margin: 0 auto; padding: 30px;
       animation: slideUp 0.6s ease-out;
     }
     @keyframes slideUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
 
-    h3 { color: #2c3e50; font-weight: 700; text-align: center; }
-    #judulModel { color: #667eea; font-weight: 600; text-align: center; margin-bottom: 25px; font-size: 1.1rem; }
+    .section-card {
+      background: rgba(255, 255, 255, 0.6); border-radius: 15px; padding: 25px;
+      margin-bottom: 25px; border-left: 6px solid #667eea;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
     
-    .form-label { font-weight: 600; color: #34495e; font-size: 0.9rem; }
-    .form-control { background: rgba(255,255,255,0.7); border-radius: 10px; border: 1px solid white; transition: 0.3s; }
-    .form-control:focus { background: rgba(255,255,255,0.95); box-shadow: 0 0 10px rgba(102, 126, 234, 0.3); border-color: #667eea; }
+    h2 { color: #2c3e50; font-weight: 700; text-align: center; }
+    h5.section-title { color: #667eea; font-weight: 700; margin-bottom: 20px; border-bottom: 2px dashed rgba(102,126,234,0.3); padding-bottom: 10px;}
+    
+    .form-label { font-weight: 600; color: #34495e; font-size: 0.85rem; margin-bottom: 0.3rem;}
+    .form-control, .form-select { 
+      background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid white; font-size: 0.9rem;
+    }
+    .form-control:focus, .form-select:focus { background: #fff; box-shadow: 0 0 8px rgba(102, 126, 234, 0.3); border-color: #667eea; }
     
     .sintaks-box {
-      background: rgba(255,255,255,0.4); padding: 15px; border-radius: 12px;
-      margin-bottom: 15px; border-left: 5px solid #667eea;
+      background: rgba(255,255,255,0.85); padding: 15px; border-radius: 10px;
+      margin-bottom: 15px; border: 1px solid rgba(102, 126, 234, 0.3);
     }
     .sintaks-title { font-weight: 700; color: #2c3e50; font-size: 0.95rem; margin-bottom: 10px;}
     
+    /* Panel Kalkulator Waktu Melayang */
+    #timeTracker {
+      position: sticky; top: 20px; z-index: 100;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; font-weight: 700; text-align: center;
+      border-radius: 30px; padding: 12px 20px; margin-bottom: 25px;
+      box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); transition: 0.3s;
+    }
+    .time-alert { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; }
+    .time-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important; }
+
     .btn-custom {
       background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-      border: none; color: white; font-weight: 600; border-radius: 30px;
-      padding: 12px 30px; width: 100%; margin-top: 20px; transition: 0.3s;
+      border: none; color: white; font-weight: 700; border-radius: 30px;
+      padding: 15px; width: 100%; font-size: 1.1rem; transition: 0.3s;
     }
     .btn-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3); color: white;}
   </style>
 </head>
 <body>
 
-  <div class="glass-card">
-    <h3>📝 Detail Pembelajaran</h3>
-    <div id="judulModel">Memuat Model...</div>
+  <div class="glass-container">
+    <h2 class="mb-2">📝 Detail Pembelajaran</h2>
+    <p class="text-center text-muted mb-4" id="judulModel" style="font-weight: 600;">Memuat Model...</p>
 
-    <form id="formSintaks">
-      <!-- Input CP & TP yang sebelumnya kita tunda -->
-      <div class="mb-3">
-        <label class="form-label">Capaian Kompetensi (CP)</label>
-        <textarea class="form-control" id="capaian" rows="2" placeholder="Masukkan CP di sini..." required></textarea>
-      </div>
-      <div class="mb-4">
-        <label class="form-label">Tujuan Pembelajaran (TP)</label>
-        <textarea class="form-control" id="tujuan" rows="2" placeholder="Masukkan TP spesifik di sini..." required></textarea>
-      </div>
+    <!-- Kalkulator Waktu -->
+    <div id="timeTracker">Total Waktu Sesi: <span id="displayTotal">0</span> Menit | Sisa Waktu Pembagian: <span id="displaySisa">0</span> Menit</div>
 
-      <hr style="border-color: rgba(0,0,0,0.1);">
-      <h5 class="mb-3" style="font-weight: 700; color: #2c3e50;">Langkah-Langkah (Sintaks)</h5>
+    <form id="formLengkap">
       
-      <!-- Wadah ini akan diisi otomatis oleh JavaScript -->
-      <div id="wadahSintaks"></div>
+      <!-- BAGIAN 1: KOMPONEN INTI -->
+      <div class="section-card">
+        <h5 class="section-title">1. Komponen Inti</h5>
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Capaian Kompetensi (CP)</label>
+            <textarea class="form-control" rows="3" required>Peserta didik mampu memahami konsep dasar pemecahan masalah dan menerapkannya dalam kehidupan sehari-hari secara kritis dan kreatif.</textarea>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Tujuan Pembelajaran (TP)</label>
+            <textarea class="form-control" rows="3" required>Melalui diskusi kelompok, peserta didik dapat mengidentifikasi masalah pencemaran lingkungan dan merancang satu solusi sederhana dengan tepat.</textarea>
+          </div>
+        </div>
 
-      <button type="submit" class="btn btn-custom" id="btnSimpan">Simpan Sintaks & Siapkan Play Mode 🚀</button>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Materi Esensial</label>
+            <textarea class="form-control" rows="2" required>Penyebab pencemaran lingkungan (sampah plastik) dan dampaknya.</textarea>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Pertanyaan Pemantik</label>
+            <textarea class="form-control" rows="2" required>"Pernahkah kalian melihat tumpukan botol plastik di sungai? Apa yang akan terjadi jika dibiarkan?"</textarea>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label">Dimensi Profil Pelajar Pancasila (Pilih yang relevan)</label>
+          <div class="row px-2">
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Beriman & Bertaqwa</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Bergotong Royong</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Bernalar Kritis</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox"> <label class="form-check-label" style="font-size:0.85rem">Mandiri</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Kreatif</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox"> <label class="form-check-label" style="font-size:0.85rem">Berkebinekaan Global</label></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAGIAN 2: EKOSISTEM PEMBELAJARAN -->
+      <div class="section-card">
+        <h5 class="section-title">2. Ekosistem Pembelajaran</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Pendekatan Pembelajaran</label>
+            <input type="text" class="form-control" value="Pendekatan Saintifik, TPACK" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Metode Pembelajaran</label>
+            <input type="text" class="form-control" value="Diskusi Kelompok, Tanya Jawab, Penugasan" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Pemanfaatan Digital (EdTech)</label>
+            <input type="text" class="form-control" value="Video YouTube, Google Jamboard, Quizizz" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Sarana & Prasarana</label>
+            <input type="text" class="form-control" value="Proyektor, Laptop, Kertas Karton, Spidol" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Lingkungan Pembelajaran</label>
+            <input type="text" class="form-control" value="Ruang Kelas & Halaman Sekolah" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Mitra Pembelajaran (Jika ada)</label>
+            <input type="text" class="form-control" value="Petugas Kebersihan Sekolah (Narasumber singkat)">
+          </div>
+        </div>
+      </div>
+
+      <!-- BAGIAN 3: SINTAKS (OTOMATIS) -->
+      <div class="section-card">
+        <h5 class="section-title">3. Skenario & Langkah Pembelajaran (Sintaks)</h5>
+        <div class="alert alert-info" style="font-size: 0.85rem; padding: 10px;">
+          💡 <b>Tips:</b> Petakan pengalaman belajar (Memahami/Mengaplikasikan/Merefleksi) pada setiap fase, lalu atur jam/menitnya hingga sisa waktu mencapai 0!
+        </div>
+        
+        <div id="wadahSintaks"></div>
+      </div>
+
+      <!-- BAGIAN 4: ASESMEN & LAMPIRAN -->
+      <div class="section-card">
+        <h5 class="section-title">4. Asesmen & Lampiran Pembelajaran</h5>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Jenis Asesmen</label>
+            <select class="form-select">
+              <option>Formatif (Proses Belajar)</option>
+              <option>Sumatif (Akhir Belajar)</option>
+              <option>Diagnostik (Awal Kesiapan)</option>
+              <option selected>Diagnostik & Formatif</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Metode Asesmen</label>
+            <input type="text" class="form-control" value="Observasi Kinerja & Tes Lisan" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Bentuk Instrumen</label>
+            <input type="text" class="form-control" value="Rubrik Penilaian Presentasi" required>
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Tautan / Upload Instrumen Asesmen (G-Drive)</label>
+            <input type="url" class="form-control" placeholder="https://drive.google.com/file/d/..." value="https://drive.google.com/">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Tautan / Upload LKPD Siswa (G-Drive)</label>
+            <input type="url" class="form-control" placeholder="https://drive.google.com/file/d/..." value="https://drive.google.com/">
+          </div>
+
+          <div class="col-12 mt-2">
+            <label class="form-label">Rencana Refleksi (Untuk Guru & Siswa)</label>
+            <textarea class="form-control" rows="2" required>Siswa: Mengisi emoji perasaan setelah belajar. Guru: Menilai apakah metode diskusi berjalan efektif.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-custom" id="btnSimpan">Simpan Data Lengkap & Masuk Play Mode 🚀</button>
     </form>
   </div>
 
   <script>
     // Database Template Sintaks
     const masterSintaks = {
-      'M01': [ // PBL
+      'M01': [
         "Fase 1: Orientasi siswa pada masalah",
         "Fase 2: Mengorganisasi siswa untuk belajar",
         "Fase 3: Membimbing penyelidikan individu/kelompok",
         "Fase 4: Mengembangkan dan menyajikan hasil karya",
         "Fase 5: Menganalisis dan mengevaluasi proses pemecahan masalah"
       ],
-      'M02': [ // PjBL
+      'M02': [
         "Fase 1: Pertanyaan mendasar",
         "Fase 2: Menyusun perencanaan proyek",
         "Fase 3: Menyusun jadwal",
         "Fase 4: Memonitor kemajuan proyek",
         "Fase 5: Menguji hasil (presentasi)",
         "Fase 6: Evaluasi pengalaman belajar"
+      ],
+      'M06': [
+        "Fase 1: Menyampaikan tujuan dan mempersiapkan siswa",
+        "Fase 2: Mendemonstrasikan pengetahuan atau keterampilan",
+        "Fase 3: Membimbing pelatihan (guided practice)",
+        "Fase 4: Mengecek pemahaman dan memberikan umpan balik",
+        "Fase 5: Memberikan latihan mandiri (independent practice)"
       ]
-      // Sintaks model lain akan kita tambahkan bertahap di sini
     };
 
+    let totalWaktu = 0;
+
     document.addEventListener("DOMContentLoaded", function() {
-      // Mengambil memori dari halaman 1
       let idModel = localStorage.getItem('lo_id_model');
       let namaModel = localStorage.getItem('lo_nama_model');
+      let waktuAwal = localStorage.getItem('lo_waktu');
       
       if(!idModel) {
-        alert("Sesi tidak ditemukan! Kembali ke halaman awal.");
+        alert("Sesi terputus! Mengembalikan ke halaman awal.");
         window.location.href = "index.html";
         return;
       }
 
-      // Menampilkan judul model
+      totalWaktu = parseInt(waktuAwal) || 90;
       document.getElementById('judulModel').innerText = namaModel;
+      document.getElementById('displayTotal').innerText = totalWaktu;
+      document.getElementById('displaySisa').innerText = totalWaktu;
 
-      // Merender kotak sintaks
       let wadah = document.getElementById('wadahSintaks');
-      let daftarFase = masterSintaks[idModel] || ["Fase Inti: (Model ini belum memiliki template fase, silakan isi manual)"];
+      let daftarFase = masterSintaks[idModel] || ["Fase Inti Pembelajaran (Sintaks Manual)"];
 
+      // Looping untuk merender setiap fase
       daftarFase.forEach((fase, index) => {
         let box = document.createElement('div');
         box.className = 'sintaks-box';
+        
+        // Contoh Pengisian Default
+        let placeholderAktivitas = `Guru memulai dengan... \nSiswa melakukan...`;
+        let defaultPengalaman = "Memahami";
+        if(index > 0 && index < daftarFase.length - 1) defaultPengalaman = "Mengaplikasikan";
+        if(index === daftarFase.length - 1) defaultPengalaman = "Merefleksikan";
+
         box.innerHTML = `
           <div class="sintaks-title">${fase}</div>
           <div class="row">
-            <div class="col-md-9 mb-2 mb-md-0">
-              <textarea class="form-control" placeholder="Aktivitas Guru & Siswa pada fase ini..." rows="2" required></textarea>
+            <div class="col-md-7 mb-2">
+              <label class="form-label text-muted">Aktivitas Guru & Siswa</label>
+              <textarea class="form-control" rows="2" required>${placeholderAktivitas}</textarea>
             </div>
-            <div class="col-md-3">
-              <input type="number" class="form-control" placeholder="Menit" required>
+            <div class="col-md-3 mb-2">
+              <label class="form-label text-muted">Pengalaman Belajar</label>
+              <select class="form-select">
+                <option ${defaultPengalaman === 'Memahami' ? 'selected' : ''}>Memahami</option>
+                <option ${defaultPengalaman === 'Mengaplikasikan' ? 'selected' : ''}>Mengaplikasikan</option>
+                <option ${defaultPengalaman === 'Merefleksikan' ? 'selected' : ''}>Merefleksikan</option>
+              </select>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label class="form-label text-muted">Durasi (Menit)</label>
+              <input type="number" class="form-control input-waktu" placeholder="0" min="1" onkeyup="hitungWaktu()" onchange="hitungWaktu()" required>
             </div>
           </div>
         `;
@@ -130,10 +282,45 @@
       });
     });
 
-    document.getElementById('formSintaks').addEventListener('submit', function(e) {
+    // Fungsi Kalkulator Waktu Real-Time
+    function hitungWaktu() {
+      let inputs = document.querySelectorAll('.input-waktu');
+      let totalTerpakai = 0;
+      
+      inputs.forEach(input => {
+        let val = parseInt(input.value) || 0;
+        totalTerpakai += val;
+      });
+
+      let sisa = totalWaktu - totalTerpakai;
+      let tracker = document.getElementById('timeTracker');
+      let displaySisa = document.getElementById('displaySisa');
+      
+      displaySisa.innerText = sisa;
+
+      if (sisa > 0) {
+        tracker.className = ''; 
+        tracker.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      } else if (sisa === 0) {
+        tracker.className = 'time-success'; // Hijau pas
+      } else {
+        tracker.className = 'time-alert'; // Merah over-time
+        displaySisa.innerText = sisa + " (Kelebihan Waktu!)";
+      }
+    }
+
+    // Aksi Submit Form
+    document.getElementById('formLengkap').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert("Tahap 2 Selesai! Sintaks siap dikirim ke Database untuk Play Mode.");
-      // Logika POST data sintaks ke GAS akan kita kerjakan di tahap selanjutnya
+      
+      let sisa = parseInt(document.getElementById('displaySisa').innerText);
+      if(sisa !== 0) {
+        alert("Mohon atur waktu di setiap Sintaks agar Sisa Waktu Pembagian tepat 0 Menit!");
+        return;
+      }
+
+      alert("Luar Biasa! Seluruh RPP komprehensif Anda tersimpan. Menyiapkan Dasbor Play Mode...");
+      // Di tahap selanjutnya, kita akan mengirim struktur data final ini ke Google Apps Script
     });
   </script>
 </body>
