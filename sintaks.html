@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isi Sintaks - Learning Organizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #ff9a9e, #fecfef);
+      background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+      min-height: 100vh; display: flex; justify-content: center; padding: 30px 15px;
+    }
+    @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(15px);
+      border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      padding: 35px; width: 100%; max-width: 800px;
+      animation: slideUp 0.6s ease-out;
+    }
+    @keyframes slideUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+
+    h3 { color: #2c3e50; font-weight: 700; text-align: center; }
+    #judulModel { color: #667eea; font-weight: 600; text-align: center; margin-bottom: 25px; font-size: 1.1rem; }
+    
+    .form-label { font-weight: 600; color: #34495e; font-size: 0.9rem; }
+    .form-control { background: rgba(255,255,255,0.7); border-radius: 10px; border: 1px solid white; transition: 0.3s; }
+    .form-control:focus { background: rgba(255,255,255,0.95); box-shadow: 0 0 10px rgba(102, 126, 234, 0.3); border-color: #667eea; }
+    
+    .sintaks-box {
+      background: rgba(255,255,255,0.4); padding: 15px; border-radius: 12px;
+      margin-bottom: 15px; border-left: 5px solid #667eea;
+    }
+    .sintaks-title { font-weight: 700; color: #2c3e50; font-size: 0.95rem; margin-bottom: 10px;}
+    
+    .btn-custom {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      border: none; color: white; font-weight: 600; border-radius: 30px;
+      padding: 12px 30px; width: 100%; margin-top: 20px; transition: 0.3s;
+    }
+    .btn-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3); color: white;}
+  </style>
+</head>
+<body>
+
+  <div class="glass-card">
+    <h3>📝 Detail Pembelajaran</h3>
+    <div id="judulModel">Memuat Model...</div>
+
+    <form id="formSintaks">
+      <!-- Input CP & TP yang sebelumnya kita tunda -->
+      <div class="mb-3">
+        <label class="form-label">Capaian Kompetensi (CP)</label>
+        <textarea class="form-control" id="capaian" rows="2" placeholder="Masukkan CP di sini..." required></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Tujuan Pembelajaran (TP)</label>
+        <textarea class="form-control" id="tujuan" rows="2" placeholder="Masukkan TP spesifik di sini..." required></textarea>
+      </div>
+
+      <hr style="border-color: rgba(0,0,0,0.1);">
+      <h5 class="mb-3" style="font-weight: 700; color: #2c3e50;">Langkah-Langkah (Sintaks)</h5>
+      
+      <!-- Wadah ini akan diisi otomatis oleh JavaScript -->
+      <div id="wadahSintaks"></div>
+
+      <button type="submit" class="btn btn-custom" id="btnSimpan">Simpan Sintaks & Siapkan Play Mode 🚀</button>
+    </form>
+  </div>
+
+  <script>
+    // Database Template Sintaks
+    const masterSintaks = {
+      'M01': [ // PBL
+        "Fase 1: Orientasi siswa pada masalah",
+        "Fase 2: Mengorganisasi siswa untuk belajar",
+        "Fase 3: Membimbing penyelidikan individu/kelompok",
+        "Fase 4: Mengembangkan dan menyajikan hasil karya",
+        "Fase 5: Menganalisis dan mengevaluasi proses pemecahan masalah"
+      ],
+      'M02': [ // PjBL
+        "Fase 1: Pertanyaan mendasar",
+        "Fase 2: Menyusun perencanaan proyek",
+        "Fase 3: Menyusun jadwal",
+        "Fase 4: Memonitor kemajuan proyek",
+        "Fase 5: Menguji hasil (presentasi)",
+        "Fase 6: Evaluasi pengalaman belajar"
+      ]
+      // Sintaks model lain akan kita tambahkan bertahap di sini
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+      // Mengambil memori dari halaman 1
+      let idModel = localStorage.getItem('lo_id_model');
+      let namaModel = localStorage.getItem('lo_nama_model');
+      
+      if(!idModel) {
+        alert("Sesi tidak ditemukan! Kembali ke halaman awal.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      // Menampilkan judul model
+      document.getElementById('judulModel').innerText = namaModel;
+
+      // Merender kotak sintaks
+      let wadah = document.getElementById('wadahSintaks');
+      let daftarFase = masterSintaks[idModel] || ["Fase Inti: (Model ini belum memiliki template fase, silakan isi manual)"];
+
+      daftarFase.forEach((fase, index) => {
+        let box = document.createElement('div');
+        box.className = 'sintaks-box';
+        box.innerHTML = `
+          <div class="sintaks-title">${fase}</div>
+          <div class="row">
+            <div class="col-md-9 mb-2 mb-md-0">
+              <textarea class="form-control" placeholder="Aktivitas Guru & Siswa pada fase ini..." rows="2" required></textarea>
+            </div>
+            <div class="col-md-3">
+              <input type="number" class="form-control" placeholder="Menit" required>
+            </div>
+          </div>
+        `;
+        wadah.appendChild(box);
+      });
+    });
+
+    document.getElementById('formSintaks').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("Tahap 2 Selesai! Sintaks siap dikirim ke Database untuk Play Mode.");
+      // Logika POST data sintaks ke GAS akan kita kerjakan di tahap selanjutnya
+    });
+  </script>
+</body>
+</html>
