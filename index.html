@@ -3,87 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learning Organizer - TKA Surabaya</title>
+  <title>Learning Organizer - EduPro Surabaya - ArdiyatnaP</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   
   <style>
     body {
-      margin: 0; padding: 0;
-      font-family: 'Poppins', sans-serif;
+      margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
       background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      min-height: 100vh;
-      display: flex; justify-content: center; align-items: center;
-      padding: 20px;
+      background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+      min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
     }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
+    @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     .glass-card {
-      background: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-      padding: 40px; 
-      width: 100%; 
-      max-width: 750px;
-      animation: slideUp 0.8s ease-out forwards;
-      opacity: 0; transform: translateY(30px);
+      background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2); padding: 40px; width: 100%; max-width: 750px;
+      animation: slideUp 0.8s ease-out forwards; opacity: 0; transform: translateY(30px);
     }
-
-    @keyframes slideUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h2 {
-      color: #2c3e50; font-weight: 700; text-align: center;
-      margin-bottom: 30px; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-    }
-
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+    h2 { color: #2c3e50; font-weight: 700; text-align: center; margin-bottom: 30px; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
     .form-label { font-weight: 600; color: #34495e; font-size: 0.9rem; margin-bottom: 0.3rem;}
-    
-    .form-control, .form-select {
-      border-radius: 10px; border: 1px solid rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.7); transition: all 0.3s;
-      font-size: 0.95rem;
-    }
-
-    .form-control:focus, .form-select:focus {
-      background: rgba(255,255,255,0.9);
-      box-shadow: 0 0 10px rgba(161, 196, 253, 0.5); border-color: #a1c4fd;
-    }
-
+    .form-control, .form-select { border-radius: 10px; border: 1px solid rgba(255,255,255,0.8); background: rgba(255,255,255,0.7); transition: all 0.3s; font-size: 0.95rem; }
+    .form-control:focus, .form-select:focus { background: rgba(255,255,255,0.9); box-shadow: 0 0 10px rgba(161, 196, 253, 0.5); border-color: #a1c4fd; }
     .btn-custom {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none; color: white; font-weight: 600; font-size: 1.1rem;
-      border-radius: 30px; padding: 12px 30px;
-      transition: transform 0.3s, box-shadow 0.3s; width: 100%; margin-top: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; font-weight: 600; font-size: 1.1rem;
+      border-radius: 30px; padding: 12px 30px; transition: transform 0.3s, box-shadow 0.3s; width: 100%; margin-top: 10px;
     }
-
-    .btn-custom:hover {
-      transform: scale(1.05) translateY(-3px);
-      box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); color: white;
-    }
-    
-    optgroup {
-      font-weight: 700;
-      color: #2c3e50;
-      background-color: #f1f2f6;
-    }
-    option {
-      font-weight: 400;
-      color: #2f3640;
-      background-color: white;
-    }
+    .btn-custom:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); color: white; }
+    optgroup { font-weight: 700; color: #2c3e50; background-color: #f1f2f6; }
+    option { font-weight: 400; color: #2f3640; background-color: white; }
+    .helper-text { font-size: 0.75rem; color: #576574; margin-top: 2px; display: block; }
   </style>
 </head>
 <body>
@@ -105,10 +56,10 @@
         </div>
       </div>
       
-      <!-- Baris 2: Mapel dan Kelas -->
-      <div class="row mb-4">
+      <!-- Baris 2: Mapel Utama dan Kelas -->
+      <div class="row mb-2">
         <div class="col-md-8 mb-3 mb-md-0">
-          <label class="form-label">Mata Pelajaran</label>
+          <label class="form-label">Mata Pelajaran Utama</label>
           <select class="form-select" id="mapel" required>
             <option value="" disabled selected>-- Pilih Mata Pelajaran --</option>
             <optgroup label="Pendidikan Agama dan Budi Pekerti">
@@ -134,30 +85,43 @@
             <optgroup label="Muatan Lokal">
               <option value="Bahasa Jawa">Bahasa Jawa</option>
             </optgroup>
-            <option value="Ko Kurikuler">Ko Kurikuler</option>
+            <option value="Ko Kurikuler / P5">Ko Kurikuler / P5</option>
           </select>
         </div>
         <div class="col-md-4">
           <label class="form-label">Kelas</label>
-          <input type="text" class="form-control" id="kelas" placeholder="Contoh: 6A" required>
+          <input type="text" class="form-control" id="kelas" placeholder="Contoh: 4 A" required>
         </div>
       </div>
 
-      <!-- Baris 3: Waktu dan Model -->
+      <!-- Baris Tambahan: Multi-Mapel -->
+      <div class="mb-4">
+        <input type="text" class="form-control" id="mapelIntegrasi" placeholder="Contoh: Terintegrasi dengan Seni Rupa & Bahasa Jawa">
+        <span class="helper-text">*Isi jika ini adalah pembelajaran Tematik atau Lintas Disiplin Ilmu. Kosongkan jika tidak ada.</span>
+      </div>
+
+      <!-- Baris 3: Model Pembelajaran -->
+      <div class="mb-3">
+        <label class="form-label">Model Pembelajaran</label>
+        <select class="form-select" id="modelPembelajaran" required>
+          <option value="" disabled selected>Mengambil data dari server...</option>
+        </select>
+      </div>
+
+      <!-- Baris 4: Waktu dan Jumlah Pertemuan (Dirombak) -->
       <div class="row mb-4">
-        <div class="col-md-4 mb-3 mb-md-0">
-          <label class="form-label">Total Waktu (Menit)</label>
+        <div class="col-md-6 mb-3 mb-md-0">
+          <label class="form-label">Waktu Per Pertemuan (Menit)</label>
           <input type="number" class="form-control" id="waktu" placeholder="Misal: 90" required>
         </div>
-        <div class="col-md-8">
-          <label class="form-label">Model Pembelajaran</label>
-          <select class="form-select" id="modelPembelajaran" required>
-            <option value="" disabled selected>Mengambil data dari server...</option>
-          </select>
+        <div class="col-md-6">
+          <label class="form-label">Jumlah Pertemuan (Hari)</label>
+          <input type="number" class="form-control" id="jmlPertemuan" value="1" min="1" required>
+          <span class="helper-text">*Ubah menjadi 2, 3, dst jika modul ini berjalan untuk beberapa hari.</span>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-custom" id="btnLanjut">Lanjut ke Pengisian Sintaks ✨</button>
+      <button type="submit" class="btn btn-custom" id="btnLanjut">Simpan Setup & Lanjut ✨</button>
     </form>
   </div>
 
@@ -167,12 +131,10 @@
     
     document.addEventListener("DOMContentLoaded", async function() {
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_URL + "?t=" + new Date().getTime(), {
           method: 'GET',
           redirect: 'follow',
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          }
+          headers: { "Content-Type": "text/plain;charset=utf-8" }
         });
         const dataModel = await response.json();
         isiDropdownModel(dataModel);
@@ -185,52 +147,43 @@
     function isiDropdownModel(dataModel) {
       let select = document.getElementById('modelPembelajaran');
       select.innerHTML = '<option value="" disabled selected>-- Pilih Model --</option>';
-      
       let currentGroup = "";
       let optgroup = null;
 
       dataModel.forEach(function(model) {
-        // Jika kelompoknya beda dengan yang sebelumnya, buat grup baru
         if(model.kelompok !== currentGroup) {
           optgroup = document.createElement('optgroup');
           optgroup.label = model.kelompok;
           select.appendChild(optgroup);
           currentGroup = model.kelompok;
         }
-
-        // Buat opsi (option)
         let option = document.createElement('option');
         option.value = model.id;
         option.text = model.nama;
-        
-        // Memasukkan ke dalam optgroup agar rapi
-        if(optgroup) {
-          optgroup.appendChild(option);
-        } else {
-          select.appendChild(option);
-        }
+        if(optgroup) { optgroup.appendChild(option); } else { select.appendChild(option); }
       });
     }
 
-    // ---> LOGIKA TOMBOL SIMPAN <---
     document.getElementById('formPerencanaan').addEventListener('submit', async function(e) {
       e.preventDefault(); 
-      
       let btn = document.getElementById('btnLanjut');
-      btn.innerHTML = 'Menyimpan Setup... ⏳';
-      btn.style.opacity = '0.7';
-      btn.disabled = true;
+      btn.innerHTML = 'Menyimpan Setup... ⏳'; btn.style.opacity = '0.7'; btn.disabled = true;
 
-      // Menangkap isian form (CP dan TP dikosongkan untuk diisi di halaman selanjutnya)
+      // Menggabungkan Mapel Utama dan Mapel Integrasi jika ada
+      let mapelUtama = document.getElementById('mapel').value;
+      let mapelIntegrasi = document.getElementById('mapelIntegrasi').value;
+      let finalMapel = mapelIntegrasi ? (mapelUtama + " (Terintegrasi: " + mapelIntegrasi + ")") : mapelUtama;
+
       let dataRPP = {
         nama: document.getElementById('namaGuru').value,
         sekolah: document.getElementById('namaSekolah').value,
-        mapel: document.getElementById('mapel').value,
+        mapel: finalMapel, // Mapel sudah digabung
         kelas: document.getElementById('kelas').value,
         capaian: "", 
         tujuan: "",  
         waktu: document.getElementById('waktu').value,
-        model: document.getElementById('modelPembelajaran').value
+        model: document.getElementById('modelPembelajaran').value,
+        jmlPertemuan: document.getElementById('jmlPertemuan').value // Mengirim jumlah pertemuan
       };
 
       try {
@@ -242,32 +195,26 @@
         const result = await response.json();
 
         if (result.status === "success") {
-          // Menyimpan data penting ke memori browser
           let selectModel = document.getElementById('modelPembelajaran');
           let teksModel = selectModel.options[selectModel.selectedIndex].text;
           
-          localStorage.setItem('lo_id_modul', result.idModul); // Menyimpan ID RPP
-          localStorage.setItem('lo_id_model', dataRPP.model);  // Menyimpan Kode Model (M01, M02, dst)
-          localStorage.setItem('lo_nama_model', teksModel);    // Menyimpan Nama Model
-		  localStorage.setItem('lo_waktu', dataRPP.waktu);
+          // Menyimpan memori untuk Halaman 2
+          localStorage.setItem('lo_id_modul', result.idModul); 
+          localStorage.setItem('lo_id_model', dataRPP.model);  
+          localStorage.setItem('lo_nama_model', teksModel);    
+          localStorage.setItem('lo_waktu', dataRPP.waktu); 
+          localStorage.setItem('lo_pertemuan', dataRPP.jmlPertemuan); // Simpan Jml Pertemuan ke Memori
 
           alert("Setup Awal berhasil disimpan! Menuju pengisian sintaks...");
-          
-          // Mengalihkan ke Halaman 2
           window.location.href = "sintaks.html";
           
         } else {
           alert("Gagal menyimpan: " + result.message);
-          btn.innerHTML = 'Lanjut ke Pengisian Sintaks ✨';
-          btn.style.opacity = '1';
-          btn.disabled = false;
+          btn.innerHTML = 'Simpan Setup & Lanjut ✨'; btn.style.opacity = '1'; btn.disabled = false;
         }
       } catch (error) {
         alert("Terjadi kesalahan koneksi saat menyimpan data.");
-        console.error("Error:", error);
-        btn.innerHTML = 'Lanjut ke Pengisian Sintaks ✨';
-        btn.style.opacity = '1';
-        btn.disabled = false;
+        btn.innerHTML = 'Simpan Setup & Lanjut ✨'; btn.style.opacity = '1'; btn.disabled = false;
       }
     });
   </script>
