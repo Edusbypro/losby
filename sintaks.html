@@ -7,24 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
-      background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #ff9a9e, #fecfef);
-      background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-      min-height: 100vh; padding: 40px 15px;
-    }
+    body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #ff9a9e, #fecfef); background-size: 400% 400%; animation: gradientBG 15s ease infinite; min-height: 100vh; padding: 40px 15px; }
     @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
-    .glass-container {
-      background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(15px);
-      border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-      max-width: 900px; margin: 0 auto; padding: 30px; animation: slideUp 0.6s ease-out;
-    }
+    .glass-container { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(15px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); max-width: 900px; margin: 0 auto; padding: 30px; animation: slideUp 0.6s ease-out; }
     @keyframes slideUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-    .section-card {
-      background: rgba(255, 255, 255, 0.6); border-radius: 15px; padding: 25px; margin-bottom: 25px; 
-      border-left: 6px solid #667eea; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
+    .section-card { background: rgba(255, 255, 255, 0.6); border-radius: 15px; padding: 25px; margin-bottom: 25px; border-left: 6px solid #667eea; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     h2 { color: #2c3e50; font-weight: 700; text-align: center; }
     h5.section-title { color: #667eea; font-weight: 700; margin-bottom: 20px; border-bottom: 2px dashed rgba(102,126,234,0.3); padding-bottom: 10px;}
     .form-label { font-weight: 600; color: #34495e; font-size: 0.85rem; margin-bottom: 0.3rem;}
@@ -32,17 +19,12 @@
     .form-control:focus, .form-select:focus { background: #fff; box-shadow: 0 0 8px rgba(102, 126, 234, 0.3); border-color: #667eea; }
     .sintaks-box { background: rgba(255,255,255,0.85); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(102, 126, 234, 0.3);}
     .sintaks-title { font-weight: 700; color: #2c3e50; font-size: 0.95rem; margin-bottom: 10px;}
-    #timeTracker {
-      position: sticky; top: 20px; z-index: 100; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white; font-weight: 700; text-align: center; border-radius: 30px; padding: 12px 20px; margin-bottom: 25px;
-      box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); transition: 0.3s;
-    }
+    
+    #timeTracker { position: sticky; top: 20px; z-index: 100; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 700; text-align: center; border-radius: 15px; padding: 15px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); transition: 0.3s; }
+    .tracker-item { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; margin: 5px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.4);}
     .time-alert { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; }
-    .time-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important; }
-    .btn-custom {
-      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; color: white; font-weight: 700; 
-      border-radius: 30px; padding: 15px; width: 100%; font-size: 1.1rem; transition: 0.3s;
-    }
+    
+    .btn-custom { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; color: white; font-weight: 700; border-radius: 30px; padding: 15px; width: 100%; font-size: 1.1rem; transition: 0.3s; }
     .btn-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3); color: white;}
   </style>
 </head>
@@ -57,7 +39,11 @@
       <strong id="judulModel" style="font-size: 1.25rem; color: #2c3e50;">Memuat Model...</strong>
     </div>
 
-    <div id="timeTracker">Total Waktu: <span id="displayTotal">0</span> Menit | Sisa: <span id="displaySisa">0</span> Menit</div>
+    <!-- KALKULATOR MULTI-PERTEMUAN -->
+    <div id="timeTracker">
+      <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Kalkulator Sisa Waktu</div>
+      <div id="wadahTracker"></div>
+    </div>
 
     <form id="formLengkap">
       
@@ -67,31 +53,31 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Capaian Kompetensi (CP)</label>
-            <textarea class="form-control" id="cp" rows="3" required>Peserta didik mampu memahami konsep dasar pemecahan masalah dan menerapkannya dalam kehidupan sehari-hari secara kritis dan kreatif.</textarea>
+            <textarea class="form-control" id="cp" rows="3" required></textarea>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Tujuan Pembelajaran (TP)</label>
-            <textarea class="form-control" id="tp" rows="3" required>Melalui diskusi kelompok, peserta didik dapat mengidentifikasi masalah pencemaran lingkungan dan merancang satu solusi sederhana dengan tepat.</textarea>
+            <textarea class="form-control" id="tp" rows="3" required></textarea>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Materi Esensial</label>
-            <textarea class="form-control" id="materi" rows="2" required>Penyebab pencemaran lingkungan (sampah plastik) dan dampaknya.</textarea>
+            <textarea class="form-control" id="materi" rows="2" required></textarea>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Pertanyaan Pemantik</label>
-            <textarea class="form-control" id="pemantik" rows="2" required>"Pernahkah kalian melihat tumpukan botol plastik di sungai? Apa yang akan terjadi jika dibiarkan?"</textarea>
+            <textarea class="form-control" id="pemantik" rows="2" required></textarea>
           </div>
         </div>
         <div class="mb-2">
           <label class="form-label">Dimensi Profil Pelajar Pancasila</label>
           <div class="row px-2">
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Beriman & Bertaqwa" type="checkbox" checked> <label class="form-check-label">Beriman & Bertaqwa</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bergotong Royong" type="checkbox" checked> <label class="form-check-label">Bergotong Royong</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bernalar Kritis" type="checkbox" checked> <label class="form-check-label">Bernalar Kritis</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Beriman & Bertaqwa" type="checkbox"> <label class="form-check-label">Beriman & Bertaqwa</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bergotong Royong" type="checkbox"> <label class="form-check-label">Bergotong Royong</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bernalar Kritis" type="checkbox"> <label class="form-check-label">Bernalar Kritis</label></div></div>
             <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Mandiri" type="checkbox"> <label class="form-check-label">Mandiri</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Kreatif" type="checkbox" checked> <label class="form-check-label">Kreatif</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Kreatif" type="checkbox"> <label class="form-check-label">Kreatif</label></div></div>
             <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Berkebinekaan Global" type="checkbox"> <label class="form-check-label">Berkebinekaan Global</label></div></div>
           </div>
         </div>
@@ -101,37 +87,19 @@
       <div class="section-card">
         <h5 class="section-title">2. Ekosistem Pembelajaran</h5>
         <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Pendekatan Pembelajaran</label>
-            <input type="text" class="form-control" id="pendekatan" value="Pendekatan Saintifik, TPACK" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Metode Pembelajaran</label>
-            <input type="text" class="form-control" id="metode" value="Diskusi Kelompok, Tanya Jawab, Penugasan" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Pemanfaatan Digital (EdTech)</label>
-            <input type="text" class="form-control" id="digital" value="Video YouTube, Google Jamboard, Quizizz" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Sarana & Prasarana</label>
-            <input type="text" class="form-control" id="sarpras" value="Proyektor, Laptop, Kertas Karton, Spidol" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Lingkungan Pembelajaran</label>
-            <input type="text" class="form-control" id="lingkungan" value="Ruang Kelas & Halaman Sekolah" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Mitra Pembelajaran (Jika ada)</label>
-            <input type="text" class="form-control" id="mitra" value="Petugas Kebersihan Sekolah (Narasumber singkat)">
-          </div>
+          <div class="col-md-6 mb-3"><label class="form-label">Pendekatan Pembelajaran</label><input type="text" class="form-control" id="pendekatan" value="Pendekatan Saintifik, TPACK" required></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Metode Pembelajaran</label><input type="text" class="form-control" id="metode" value="Diskusi Kelompok, Tanya Jawab, Penugasan" required></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Pemanfaatan Digital (EdTech)</label><input type="text" class="form-control" id="digital" value="Video YouTube, Google Jamboard, Quizizz" required></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Sarana & Prasarana</label><input type="text" class="form-control" id="sarpras" value="Proyektor, Laptop, Kertas Karton, Spidol" required></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Lingkungan Pembelajaran</label><input type="text" class="form-control" id="lingkungan" value="Ruang Kelas & Halaman Sekolah" required></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Mitra Pembelajaran (Jika ada)</label><input type="text" class="form-control" id="mitra" value="Petugas Kebersihan Sekolah (Narasumber singkat)"></div>
         </div>
       </div>
 
-      <!-- BAGIAN 3: SINTAKS (OTOMATIS) -->
+      <!-- BAGIAN 3: SINTAKS (OTOMATIS / AUTO-FILL) -->
       <div class="section-card">
         <h5 class="section-title">3. Skenario & Langkah Pembelajaran (Sintaks)</h5>
-        <div class="alert alert-info" style="font-size: 0.85rem; padding: 10px;">💡 <b>Tips:</b> Atur waktu hingga Sisa Waktu mencapai 0!</div>
+        <div class="alert alert-info" style="font-size: 0.85rem; padding: 10px;">💡 <b>Tips:</b> Tentukan pada Pertemuan ke berapa fase ini dijalankan, dan atur waktu hingga Sisa Waktu mencapai 0!</div>
         <div id="wadahSintaks"></div>
       </div>
 
@@ -141,33 +109,13 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Jenis Asesmen</label>
-            <select class="form-select" id="jenisAsesmen">
-              <option>Formatif (Proses Belajar)</option>
-              <option>Sumatif (Akhir Belajar)</option>
-              <option>Diagnostik (Awal Kesiapan)</option>
-              <option selected>Diagnostik & Formatif</option>
-            </select>
+            <select class="form-select" id="jenisAsesmen"><option>Formatif (Proses Belajar)</option><option>Sumatif (Akhir Belajar)</option><option>Diagnostik (Awal Kesiapan)</option><option selected>Diagnostik & Formatif</option></select>
           </div>
-          <div class="col-md-4 mb-3">
-            <label class="form-label">Metode Asesmen</label>
-            <input type="text" class="form-control" id="metodeAsesmen" value="Observasi Kinerja & Tes Lisan" required>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label class="form-label">Bentuk Instrumen</label>
-            <input type="text" class="form-control" id="instrumenAsesmen" value="Rubrik Penilaian Presentasi" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Tautan / Link Instrumen (Drive)</label>
-            <input type="url" class="form-control" id="linkInstrumen" value="https://drive.google.com/">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Tautan / Link LKPD Siswa (Drive)</label>
-            <input type="url" class="form-control" id="linkLkpd" value="https://drive.google.com/">
-          </div>
-          <div class="col-12 mt-2">
-            <label class="form-label">Rencana Refleksi</label>
-            <textarea class="form-control" id="refleksi" rows="2" required>Siswa: Mengisi emoji perasaan setelah belajar. Guru: Menilai apakah metode diskusi berjalan efektif.</textarea>
-          </div>
+          <div class="col-md-4 mb-3"><label class="form-label">Metode Asesmen</label><input type="text" class="form-control" id="metodeAsesmen" value="Observasi Kinerja & Tes Lisan" required></div>
+          <div class="col-md-4 mb-3"><label class="form-label">Bentuk Instrumen</label><input type="text" class="form-control" id="instrumenAsesmen" value="Rubrik Penilaian Presentasi" required></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Tautan / Link Instrumen (Drive)</label><input type="url" class="form-control" id="linkInstrumen" value="https://drive.google.com/"></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Tautan / Link LKPD Siswa (Drive)</label><input type="url" class="form-control" id="linkLkpd" value="https://drive.google.com/"></div>
+          <div class="col-12 mt-2"><label class="form-label">Rencana Refleksi</label><textarea class="form-control" id="refleksi" rows="2" required>Siswa: Mengisi emoji perasaan setelah belajar. Guru: Menilai apakah metode diskusi berjalan efektif.</textarea></div>
         </div>
       </div>
 
@@ -200,159 +148,210 @@
     };
 
     let totalWaktu = 0;
+    let jmlPertemuan = 1;
 
     document.addEventListener("DOMContentLoaded", function() {
       let idModel = localStorage.getItem('lo_id_model');
-      if(!idModel) {
-        alert("Sesi terputus! Mengembalikan ke halaman awal.");
-        window.location.href = "index.html"; return;
-      }
-      totalWaktu = parseInt(localStorage.getItem('lo_waktu')) || 90;
+      if(!idModel) { alert("Sesi terputus! Mengembalikan ke halaman awal."); window.location.href = "index.html"; return; }
       
-      // Menampilkan nama model di Alert Box
+      totalWaktu = parseInt(localStorage.getItem('lo_waktu')) || 90;
+      jmlPertemuan = parseInt(localStorage.getItem('lo_pertemuan')) || 1;
+      
       document.getElementById('judulModel').innerText = localStorage.getItem('lo_nama_model');
       
-      document.getElementById('displayTotal').innerText = totalWaktu;
-      document.getElementById('displaySisa').innerText = totalWaktu;
+      // AUTO FILL LOGIC DARI BANK RPP
+      let templateStr = localStorage.getItem('lo_template_data');
+      let tData = null;
+      if(templateStr) { 
+        tData = JSON.parse(templateStr); 
+        
+        document.getElementById('cp').value = (tData.cp || "").replace(/<br>/g, '\n');
+        document.getElementById('tp').value = (tData.tp || "").replace(/<br>/g, '\n');
+        document.getElementById('materi').value = tData.materi || "";
+        document.getElementById('pemantik').value = tData.pemantik || "";
+        document.getElementById('refleksi').value = tData.refleksi || "";
+        
+        if(tData.profil) {
+          let arrProf = tData.profil.split(", ");
+          document.querySelectorAll('.profil-cb').forEach(cb => { cb.checked = arrProf.includes(cb.value); });
+        }
+        
+        try {
+          let eko = JSON.parse(tData.ekosistem);
+          if(eko.pendekatan) document.getElementById('pendekatan').value = eko.pendekatan;
+          if(eko.metode) document.getElementById('metode').value = eko.metode;
+          if(eko.digital) document.getElementById('digital').value = eko.digital;
+          if(eko.sarpras) document.getElementById('sarpras').value = eko.sarpras;
+          if(eko.lingkungan) document.getElementById('lingkungan').value = eko.lingkungan;
+          if(eko.mitra) document.getElementById('mitra').value = eko.mitra;
+        } catch(e) {}
 
+        try {
+          let ase = JSON.parse(tData.asesmen);
+          if(ase.jenis) document.getElementById('jenisAsesmen').value = ase.jenis;
+          if(ase.metode) document.getElementById('metodeAsesmen').value = ase.metode;
+          if(ase.instrumen) document.getElementById('instrumenAsesmen').value = ase.instrumen;
+          if(ase.link_instrumen) document.getElementById('linkInstrumen').value = ase.link_instrumen;
+          if(ase.link_lkpd) document.getElementById('linkLkpd').value = ase.link_lkpd;
+        } catch(e) {}
+      }
+
+      // RENDER TRACKER WAKTU DI ATAS
+      renderTracker();
+
+      // RENDER KOTAK SINTAKS
       let wadah = document.getElementById('wadahSintaks');
+      let daftarFase = [];
       
-      let daftarFase = masterSintaks[idModel] || [{fase: "Fase Inti Pembelajaran", contoh: "Tuliskan aktivitas guru dan siswa di sini..."}];
+      if(tData && tData.sintaks) {
+        daftarFase = JSON.parse(tData.sintaks); // Data dari Bank
+      } else {
+        daftarFase = masterSintaks[idModel] || [{fase: "Fase Inti Pembelajaran", contoh: "Tuliskan aktivitas..."}]; // Data Default
+      }
 
       daftarFase.forEach((item, index) => {
         let box = document.createElement('div');
         box.className = 'sintaks-box';
         
-        let defaultPengalaman = "Memahami";
-        if(index > 0 && index < daftarFase.length - 1) defaultPengalaman = "Mengaplikasikan";
-        if(index === daftarFase.length - 1) defaultPengalaman = "Merefleksikan";
+        let valPengalaman = item.pengalaman || "Memahami";
+        let valAktivitas = item.aktivitas ? item.aktivitas.replace(/<br>/g, '\n') : (item.contoh || "");
+        let valDurasi = item.durasi || "";
+        let valPert = item.pertemuan || 1;
 
-        let opsiPertemuan = `<option value="1">Pertemuan Ke-1</option>`;
+        let opsiPertemuan = "";
+        for(let p = 1; p <= jmlPertemuan; p++){
+          opsiPertemuan += `<option value="${p}" ${p == valPert ? 'selected' : ''}>Pertemuan Ke-${p}</option>`;
+        }
 
         box.innerHTML = `
           <div class="sintaks-title">${item.fase}</div>
           <div class="row">
-            <div class="col-md-7 mb-2">
-              <label class="form-label text-muted">Aktivitas Guru & Siswa (Bisa Diedit)</label>
-              <textarea class="form-control input-aktivitas" rows="3" required>${item.contoh}</textarea>
+            <div class="col-md-6 mb-2">
+              <label class="form-label text-muted">Aktivitas Guru & Siswa</label>
+              <textarea class="form-control input-aktivitas" rows="2" required>${valAktivitas}</textarea>
             </div>
-            <div class="col-md-3 mb-2">
+            <div class="col-md-2 mb-2">
               <label class="form-label text-muted">Pengalaman Belajar</label>
               <select class="form-select input-pengalaman">
-                <option ${defaultPengalaman === 'Memahami' ? 'selected' : ''}>Memahami</option>
-                <option ${defaultPengalaman === 'Mengaplikasikan' ? 'selected' : ''}>Mengaplikasikan</option>
-                <option ${defaultPengalaman === 'Merefleksikan' ? 'selected' : ''}>Merefleksikan</option>
+                <option ${valPengalaman === 'Memahami' ? 'selected' : ''}>Memahami</option>
+                <option ${valPengalaman === 'Mengaplikasikan' ? 'selected' : ''}>Mengaplikasikan</option>
+                <option ${valPengalaman === 'Merefleksikan' ? 'selected' : ''}>Merefleksikan</option>
+              </select>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label class="form-label text-muted">Dilaksanakan:</label>
+              <select class="form-select input-pertemuan" onchange="hitungWaktu()">
+                ${opsiPertemuan}
               </select>
             </div>
             <div class="col-md-2 mb-2">
               <label class="form-label text-muted">Durasi (Menit)</label>
-              <!-- Hidden Pertemuan Input karena ini draft lama -->
-              <input type="hidden" class="input-pertemuan" value="1">
-              <input type="number" class="form-control input-waktu" placeholder="0" min="1" onkeyup="hitungWaktu()" onchange="hitungWaktu()" required>
+              <input type="number" class="form-control input-waktu" value="${valDurasi}" placeholder="0" min="0" onkeyup="hitungWaktu()" onchange="hitungWaktu()" required>
             </div>
           </div>
         `;
         wadah.appendChild(box);
       });
+
+      // Menghapus template dari memori agar pembuatan RPP baru normal
+      if(tData) { localStorage.removeItem('lo_template_data'); }
+      
+      hitungWaktu();
     });
 
+    function renderTracker() {
+      let wadahTracker = document.getElementById('wadahTracker');
+      wadahTracker.innerHTML = "";
+      for(let p = 1; p <= jmlPertemuan; p++) {
+        wadahTracker.innerHTML += `<div class="tracker-item" id="tracker-P${p}">P-${p}: <span id="sisa-P${p}">${totalWaktu}</span> Menit</div>`;
+      }
+    }
+
     function hitungWaktu() {
-      let inputs = document.querySelectorAll('.input-waktu');
-      let totalTerpakai = 0;
-      inputs.forEach(input => { totalTerpakai += parseInt(input.value) || 0; });
-      let sisa = totalWaktu - totalTerpakai;
-      let tracker = document.getElementById('timeTracker');
-      let displaySisa = document.getElementById('displaySisa');
+      let totalTerpakai = [];
+      for(let p = 1; p <= jmlPertemuan; p++) totalTerpakai[p] = 0;
+
+      document.querySelectorAll('.sintaks-box').forEach(box => {
+        let pTerpilih = parseInt(box.querySelector('.input-pertemuan').value);
+        let menit = parseInt(box.querySelector('.input-waktu').value) || 0;
+        totalTerpakai[pTerpilih] += menit;
+      });
+
+      let semuaPas = true;
+      let wadahHeader = document.getElementById('timeTracker');
+
+      for(let p = 1; p <= jmlPertemuan; p++) {
+        let sisa = totalWaktu - totalTerpakai[p];
+        let teksSisa = document.getElementById(`sisa-P${p}`);
+        let kotakTracker = document.getElementById(`tracker-P${p}`);
+        
+        teksSisa.innerText = sisa;
+
+        if(sisa > 0) {
+          kotakTracker.style.background = 'rgba(255,255,255,0.2)'; kotakTracker.style.color = 'white'; semuaPas = false;
+        } else if (sisa === 0) {
+          kotakTracker.style.background = '#38ef7d'; kotakTracker.style.color = '#0f2027';
+        } else {
+          kotakTracker.style.background = '#ff4b2b'; kotakTracker.style.color = 'white'; teksSisa.innerText = sisa + " (Lebih!)"; semuaPas = false;
+        }
+      }
       
-      displaySisa.innerText = sisa;
-      if (sisa > 0) { tracker.className = ''; tracker.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-      } else if (sisa === 0) { tracker.className = 'time-success';
-      } else { tracker.className = 'time-alert'; displaySisa.innerText = sisa + " (Kelebihan!)"; }
+      if(semuaPas) { wadahHeader.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'; } 
+      else { wadahHeader.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; }
     }
 
     document.getElementById('formLengkap').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      let sisa = parseInt(document.getElementById('displaySisa').innerText);
-      if(sisa !== 0) {
-        alert("Mohon atur waktu di setiap Sintaks agar Sisa Waktu persis 0 Menit!");
-        return;
+      for(let p = 1; p <= jmlPertemuan; p++) {
+        let sisa = parseInt(document.getElementById(`sisa-P${p}`).innerText);
+        if(sisa !== 0) {
+          alert(`Mohon perbaiki durasi! Sisa waktu pada Pertemuan Ke-${p} belum 0 Menit.`); return;
+        }
       }
 
       let btn = document.getElementById('btnSimpan');
       btn.innerHTML = 'Menyimpan ke Database... ⏳'; btn.style.opacity = '0.7'; btn.disabled = true;
 
-      let arrProfil = [];
-      document.querySelectorAll('.profil-cb:checked').forEach(cb => arrProfil.push(cb.value));
-
-      let dataEkosistem = JSON.stringify({
-        pendekatan: document.getElementById('pendekatan').value,
-        metode: document.getElementById('metode').value,
-        digital: document.getElementById('digital').value,
-        sarpras: document.getElementById('sarpras').value,
-        lingkungan: document.getElementById('lingkungan').value,
-        mitra: document.getElementById('mitra').value
-      });
-
-      let dataAsesmen = JSON.stringify({
-        jenis: document.getElementById('jenisAsesmen').value,
-        metode: document.getElementById('metodeAsesmen').value,
-        instrumen: document.getElementById('instrumenAsesmen').value,
-        link_instrumen: document.getElementById('linkInstrumen').value,
-        link_lkpd: document.getElementById('linkLkpd').value
-      });
+      let arrProfil = []; document.querySelectorAll('.profil-cb:checked').forEach(cb => arrProfil.push(cb.value));
+      let dataEkosistem = JSON.stringify({ pendekatan: document.getElementById('pendekatan').value, metode: document.getElementById('metode').value, digital: document.getElementById('digital').value, sarpras: document.getElementById('sarpras').value, lingkungan: document.getElementById('lingkungan').value, mitra: document.getElementById('mitra').value });
+      let dataAsesmen = JSON.stringify({ jenis: document.getElementById('jenisAsesmen').value, metode: document.getElementById('metodeAsesmen').value, instrumen: document.getElementById('instrumenAsesmen').value, link_instrumen: document.getElementById('linkInstrumen').value, link_lkpd: document.getElementById('linkLkpd').value });
 
       let arrSintaks = [];
-      let boxes = document.querySelectorAll('.sintaks-box');
-      boxes.forEach(box => {
+      document.querySelectorAll('.sintaks-box').forEach(box => {
         arrSintaks.push({
           fase: box.querySelector('.sintaks-title').innerText,
           aktivitas: box.querySelector('.input-aktivitas').value,
           pengalaman: box.querySelector('.input-pengalaman').value,
+          pertemuan: parseInt(box.querySelector('.input-pertemuan').value),
           durasi: parseInt(box.querySelector('.input-waktu').value)
         });
       });
 
       let payload = {
-        idModul: localStorage.getItem('lo_id_modul'),
-        capaian: document.getElementById('cp').value,
-        tujuan: document.getElementById('tp').value,
-        materi: document.getElementById('materi').value,
-        pemantik: document.getElementById('pemantik').value,
-        profil: arrProfil.join(", "),
-        ekosistem: dataEkosistem,
-        asesmen: dataAsesmen,
-        refleksi: document.getElementById('refleksi').value,
-        sintaks_detail: arrSintaks
+        idModul: localStorage.getItem('lo_id_modul'), capaian: document.getElementById('cp').value, tujuan: document.getElementById('tp').value, materi: document.getElementById('materi').value, pemantik: document.getElementById('pemantik').value, profil: arrProfil.join(", "), ekosistem: dataEkosistem, asesmen: dataAsesmen, refleksi: document.getElementById('refleksi').value, sintaks_detail: arrSintaks
       };
 
       try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
         const result = await response.json();
         
         if (result.status === "success") {
           alert("Sempurna! RPP Komprehensif Anda berhasil dikunci di Database.");
-          btn.innerHTML = 'Berhasil! Menyiapkan Play Mode ✨';
-          btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
-          
           localStorage.setItem('lo_sintaks_play', JSON.stringify(arrSintaks));
+          btn.innerHTML = 'Berhasil! Menyiapkan Play Mode ✨'; btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
           window.location.href = "play.html";
         } else {
-          alert("Error Database: " + result.message);
-          btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
+          alert("Error Database: " + result.message); btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
         }
       } catch (error) {
-        alert("Gagal koneksi. Cek jaringan Anda.");
-        btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
+        alert("Gagal koneksi. Cek jaringan Anda."); btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
       }
     });
-    
+
     function downloadWord() {
       let guru = localStorage.getItem('lo_guru') || "Nama Guru";
-      let nip = localStorage.getItem('lo_nip') || "-"; // Mengambil NIP
+      let nip = localStorage.getItem('lo_nip') || "-"; 
       let sekolah = localStorage.getItem('lo_sekolah') || "Nama Sekolah";
       let mapel = localStorage.getItem('lo_mapel') || "Mata Pelajaran";
       let kelas = localStorage.getItem('lo_kelas') || "Kelas";
@@ -454,13 +453,8 @@
       
       let downloadLink = document.createElement("a");
       document.body.appendChild(downloadLink);
-      if(navigator.msSaveOrOpenBlob){
-        navigator.msSaveOrOpenBlob(blob, filename);
-      } else {
-        downloadLink.href = url;
-        downloadLink.download = filename;
-        downloadLink.click();
-      }
+      if(navigator.msSaveOrOpenBlob){ navigator.msSaveOrOpenBlob(blob, filename); } 
+      else { downloadLink.href = url; downloadLink.download = filename; downloadLink.click(); }
       document.body.removeChild(downloadLink);
     }
   </script>
