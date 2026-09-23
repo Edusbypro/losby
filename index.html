@@ -125,45 +125,52 @@
         </div>
       </div>
 
+      <!-- BUKA FILE index.html ANDA YANG LAMA -->
+<!-- Letakkan ini tepat di bawah tombol submit (sebelum penutup tag </form>) -->
+
       <button type="submit" class="btn btn-custom" id="btnLanjut">Simpan Setup & Lanjut ✨</button>
+      
+      <!-- LINK MENUJU BANK -->
+      <div class="text-center mt-3">
+        <a href="bank.html" style="color: #34495e; font-weight: 600; text-decoration: underline; font-size: 0.9rem;">Mencari Inspirasi? Buka Bank RPP 📚</a>
+      </div>
     </form>
   </div>
 
   <script>
-    // URL API TETAP SAMA
     const API_URL = "https://script.google.com/macros/s/AKfycbzYzp1rzv10ya5yMA9f8YfISo31eIL-DuC6cuZKvDF79ytrUMH4Ssmsl4-KVhN-KA4wSg/exec";
     
     document.addEventListener("DOMContentLoaded", async function() {
       try {
-        const response = await fetch(API_URL + "?t=" + new Date().getTime(), {
-          method: 'GET',
-          redirect: 'follow',
-          headers: { "Content-Type": "text/plain;charset=utf-8" }
-        });
+        const response = await fetch(API_URL + "?t=" + new Date().getTime());
         const dataModel = await response.json();
         isiDropdownModel(dataModel);
-      } catch (error) {
-        console.error("Gagal mengambil data:", error);
-        document.getElementById('modelPembelajaran').innerHTML = '<option value="" disabled selected>Gagal memuat data. Cek koneksi.</option>';
-      }
+
+        // LOGIKA PENANGKAP TEMPLATE DARI BANK RPP
+        let templateStr = localStorage.getItem('lo_template_data');
+        if(templateStr) {
+          let tData = JSON.parse(templateStr);
+          document.getElementById('kelas').value = tData.kelas || "";
+          document.getElementById('waktu').value = tData.waktu || "90";
+          // Sedikit jeda agar dropdown tuntas me-render pilihan sebelum dipilih
+          setTimeout(() => { document.getElementById('modelPembelajaran').value = tData.idModel; }, 100);
+          
+          alert("✨ Mode Salin Template Aktif! Silakan sesuaikan Nama Anda, Sekolah, dan Kelas, lalu klik Simpan.");
+        }
+      } catch (error) { console.error("Gagal", error); }
     });
 
+    // ... (fungsi isiDropdownModel tetap sama seperti sebelumnya) ...
     function isiDropdownModel(dataModel) {
       let select = document.getElementById('modelPembelajaran');
       select.innerHTML = '<option value="" disabled selected>-- Pilih Model --</option>';
-      let currentGroup = "";
-      let optgroup = null;
-
+      let currentGroup = ""; let optgroup = null;
       dataModel.forEach(function(model) {
         if(model.kelompok !== currentGroup) {
-          optgroup = document.createElement('optgroup');
-          optgroup.label = model.kelompok;
-          select.appendChild(optgroup);
-          currentGroup = model.kelompok;
+          optgroup = document.createElement('optgroup'); optgroup.label = model.kelompok;
+          select.appendChild(optgroup); currentGroup = model.kelompok;
         }
-        let option = document.createElement('option');
-        option.value = model.id;
-        option.text = model.nama;
+        let option = document.createElement('option'); option.value = model.id; option.text = model.nama;
         if(optgroup) { optgroup.appendChild(option); } else { select.appendChild(option); }
       });
     }
@@ -182,48 +189,37 @@
         sekolah: document.getElementById('namaSekolah').value,
         mapel: finalMapel, 
         kelas: document.getElementById('kelas').value,
-        capaian: "", 
-        tujuan: "",  
+        capaian: "", tujuan: "",  
         waktu: document.getElementById('waktu').value,
         model: document.getElementById('modelPembelajaran').value,
         jmlPertemuan: document.getElementById('jmlPertemuan').value 
       };
 
       try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          body: JSON.stringify(dataRPP)
-        });
-
+        const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(dataRPP) });
         const result = await response.json();
 
         if (result.status === "success") {
           let selectModel = document.getElementById('modelPembelajaran');
-          let teksModel = selectModel.options[selectModel.selectedIndex].text;
-          
-          // Menyimpan memori untuk Halaman 2 dan Cetak Word
           localStorage.setItem('lo_id_modul', result.idModul); 
           localStorage.setItem('lo_id_model', dataRPP.model);  
-          localStorage.setItem('lo_nama_model', teksModel);    
+          localStorage.setItem('lo_nama_model', selectModel.options[selectModel.selectedIndex].text);    
           localStorage.setItem('lo_waktu', dataRPP.waktu); 
           localStorage.setItem('lo_pertemuan', dataRPP.jmlPertemuan); 
-          
           localStorage.setItem('lo_guru', dataRPP.nama);
-          localStorage.setItem('lo_nip', document.getElementById('nipGuru').value); // Menyimpan NIP
+          localStorage.setItem('lo_nip', document.getElementById('nipGuru').value); 
           localStorage.setItem('lo_sekolah', dataRPP.sekolah);
           localStorage.setItem('lo_mapel', dataRPP.mapel);
           localStorage.setItem('lo_kelas', dataRPP.kelas);
 
           alert("Setup Awal berhasil disimpan! Menuju pengisian sintaks...");
           window.location.href = "sintaks.html";
-          
         } else {
           alert("Gagal menyimpan: " + result.message);
           btn.innerHTML = 'Simpan Setup & Lanjut ✨'; btn.style.opacity = '1'; btn.disabled = false;
         }
       } catch (error) {
-        alert("Terjadi kesalahan koneksi saat menyimpan data.");
-        btn.innerHTML = 'Simpan Setup & Lanjut ✨'; btn.style.opacity = '1'; btn.disabled = false;
+        alert("Terjadi kesalahan koneksi."); btn.innerHTML = 'Simpan Setup & Lanjut ✨'; btn.style.opacity = '1'; btn.disabled = false;
       }
     });
   </script>
