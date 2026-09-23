@@ -11,11 +11,13 @@
     .header-title { font-weight: 700; color: #0fbcf9; text-align: center; margin-bottom: 20px; font-size: 2rem;}
     .glass-container { background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; max-width: 1000px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     
-    /* Panel Pemilihan Guru */
-    .teacher-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; border: 1px solid transparent; transition: 0.3s;}
-    .teacher-card:hover { border-color: #0fbcf9; background: rgba(15, 188, 249, 0.1); }
-    .t-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
-    .t-meta { font-size: 0.85rem; color: #808e9b; }
+    /* Panel Pemilihan Guru (Dirombak mirip Bank RPP) */
+    .teacher-card { background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 15px; margin-bottom: 20px; cursor: pointer; border-top: 5px solid #0fbcf9; transition: 0.3s;}
+    .teacher-card:hover { transform: translateY(-5px); background: rgba(15, 188, 249, 0.1); box-shadow: 0 10px 20px rgba(15, 188, 249, 0.2);}
+    .badge-model { background: #eccc68; color: #2f3542; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; display: inline-block; margin-bottom: 15px;}
+    .t-mapel { font-weight: 700; font-size: 1.15rem; color: #fff; margin-bottom: 10px; line-height: 1.3;}
+    .t-name { font-size: 1rem; font-weight: 600; color: #0fbcf9; margin-bottom: 5px;}
+    .t-meta { font-size: 0.85rem; color: #a4b0be; margin-bottom: 3px;}
 
     /* Panel Instrumen Supervisi */
     #panelSupervisi { display: none; }
@@ -44,7 +46,7 @@
 
     <!-- PANEL 1: DAFTAR GURU -->
     <div id="panelList">
-      <input type="text" id="cariGuru" class="form-control mb-4" placeholder="🔍 Cari nama guru atau mapel..." style="background: rgba(255,255,255,0.1); color: white; border: none; border-radius: 20px; padding: 15px;" onkeyup="filterGuru()">
+      <input type="text" id="cariGuru" class="form-control mb-4" placeholder="🔍 Cari nama guru, mapel, atau model..." style="background: rgba(255,255,255,0.1); color: white; border: none; border-radius: 20px; padding: 15px;" onkeyup="filterGuru()">
       <div id="loading" class="text-center">Mengambil data kelas aktif... ⏳</div>
       <div class="row" id="wadahGuru"></div>
     </div>
@@ -78,6 +80,14 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbzYzp1rzv10ya5yMA9f8YfISo31eIL-DuC6cuZKvDF79ytrUMH4Ssmsl4-KVhN-KA4wSg/exec";
+    
+    // Menambahkan kamus model agar kode bisa diterjemahkan menjadi teks
+    const kamusModel = {
+      'M01': 'Problem-Based Learning (PBL)', 'M02': 'Project-Based Learning (PjBL)', 'M03': 'Cooperative Learning', 'M04': 'Discovery / Inquiry', 'M05': 'Contextual Teaching (CTL)',
+      'M06': 'Direct Instruction', 'M07': 'Flipped Classroom', 'M08': 'Blended Learning', 'M09': 'Game-Based Learning', 'M10': 'Quantum Learning',
+      'M11': 'Peer Teaching', 'M12': 'Team Games Tournament', 'M13': 'Jigsaw', 'M14': 'Experiential Learning', 'M15': 'Self-Directed Learning'
+    };
+
     let dataGlobal = [];
     let modulAktif = null;
 
@@ -96,14 +106,18 @@
       let wadah = document.getElementById('wadahGuru');
       wadah.innerHTML = "";
       data.forEach(item => {
-        // Hanya tampilkan RPP yang sudah diisi sintaksnya (bukan draft kosong)
         if(item.sintaks && item.sintaks.length > 5) {
+          let namaModel = kamusModel[item.idModel] || item.idModel;
+          let strTgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'});
+          
           wadah.innerHTML += `
-            <div class="col-md-6">
+            <div class="col-md-6 col-lg-4">
               <div class="teacher-card" onclick='bukaSupervisi(${JSON.stringify(item)})'>
+                <span class="badge-model">${namaModel}</span>
+                <div class="t-mapel">${item.mapel} <br> <span style="font-weight:400; font-size: 0.9rem;">Kelas ${item.kelas}</span></div>
                 <div class="t-name">👤 ${item.guru}</div>
-                <div class="t-meta">📚 ${item.mapel} (Kelas ${item.kelas})</div>
-                <div class="t-meta">📅 ${new Date(item.tanggal).toLocaleDateString('id-ID')}</div>
+                <div class="t-meta">🏫 ${item.sekolah}</div>
+                <div class="t-meta mt-1">📅 ${strTgl}</div>
               </div>
             </div>
           `;
@@ -113,7 +127,12 @@
 
     function filterGuru() {
       let keyword = document.getElementById('cariGuru').value.toLowerCase();
-      let terfilter = dataGlobal.filter(item => item.guru.toLowerCase().includes(keyword) || item.mapel.toLowerCase().includes(keyword));
+      let terfilter = dataGlobal.filter(item => {
+        let nModel = (kamusModel[item.idModel] || "").toLowerCase();
+        return item.guru.toLowerCase().includes(keyword) || 
+               item.mapel.toLowerCase().includes(keyword) ||
+               nModel.includes(keyword);
+      });
       renderDaftarGuru(terfilter);
     }
 
@@ -123,12 +142,13 @@
     }
 
     function bukaSupervisi(item) {
-      modulAktif = item; // Simpan ke variabel global agar bisa dipakai saat download word
+      modulAktif = item; 
       document.getElementById('panelList').style.display = 'none';
       document.getElementById('panelSupervisi').style.display = 'block';
       
       document.getElementById('supGuru').innerText = item.guru;
-      document.getElementById('supMapel').innerText = `${item.mapel} - Kelas ${item.kelas}`;
+      let namaModel = kamusModel[item.idModel] || item.idModel;
+      document.getElementById('supMapel').innerText = `${item.mapel} (Kelas ${item.kelas}) | Model: ${namaModel}`;
 
       let wadah = document.getElementById('wadahInstrumen');
       wadah.innerHTML = "";
@@ -161,7 +181,6 @@
       let btn = document.getElementById('btnSimpanSup');
       btn.innerHTML = "Menyimpan... ⏳"; btn.disabled = true;
 
-      // Kumpulkan Nilai Sintaks
       let arrSintaks = JSON.parse(modulAktif.sintaks);
       let hasilNilai = [];
       
@@ -170,11 +189,7 @@
         let komen = document.getElementById(`komentar_${i}`).value;
         let faseNm = document.getElementById(`faseName_${i}`).value;
         
-        hasilNilai.push({
-          fase: faseNm,
-          skor: skorChecked,
-          komentar: komen
-        });
+        hasilNilai.push({ fase: faseNm, skor: skorChecked, komentar: komen });
       }
 
       let payload = {
@@ -200,7 +215,6 @@
       }
     });
 
-    // FUNGSI DOWNLOAD WORD GABUNGAN (RPP + SUPERVISI)
     function downloadLaporanWord() {
       if(!modulAktif) return;
       
@@ -208,7 +222,6 @@
       let htmlTabelSupervisi = "";
       
       for(let i=0; i<arrSintaks.length; i++) {
-        // Ambil data yang diceklis saat ini dari layar kepsek
         let radioEl = document.querySelector(`input[name="skor_${i}"]:checked`);
         let skor = radioEl ? radioEl.value : "-";
         let komen = document.getElementById(`komentar_${i}`).value;
