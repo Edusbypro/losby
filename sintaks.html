@@ -6,7 +6,6 @@
   <title>Lengkapi Pembelajaran - Learning Organizer</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  
   <style>
     body {
       margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
@@ -15,52 +14,34 @@
       min-height: 100vh; padding: 40px 15px;
     }
     @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
-    
     .glass-container {
       background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(15px);
       border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-      max-width: 900px; margin: 0 auto; padding: 30px;
-      animation: slideUp 0.6s ease-out;
+      max-width: 900px; margin: 0 auto; padding: 30px; animation: slideUp 0.6s ease-out;
     }
     @keyframes slideUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-
     .section-card {
-      background: rgba(255, 255, 255, 0.6); border-radius: 15px; padding: 25px;
-      margin-bottom: 25px; border-left: 6px solid #667eea;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      background: rgba(255, 255, 255, 0.6); border-radius: 15px; padding: 25px; margin-bottom: 25px; 
+      border-left: 6px solid #667eea; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
-    
     h2 { color: #2c3e50; font-weight: 700; text-align: center; }
     h5.section-title { color: #667eea; font-weight: 700; margin-bottom: 20px; border-bottom: 2px dashed rgba(102,126,234,0.3); padding-bottom: 10px;}
-    
     .form-label { font-weight: 600; color: #34495e; font-size: 0.85rem; margin-bottom: 0.3rem;}
-    .form-control, .form-select { 
-      background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid white; font-size: 0.9rem;
-    }
+    .form-control, .form-select { background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid white; font-size: 0.9rem;}
     .form-control:focus, .form-select:focus { background: #fff; box-shadow: 0 0 8px rgba(102, 126, 234, 0.3); border-color: #667eea; }
-    
-    .sintaks-box {
-      background: rgba(255,255,255,0.85); padding: 15px; border-radius: 10px;
-      margin-bottom: 15px; border: 1px solid rgba(102, 126, 234, 0.3);
-    }
+    .sintaks-box { background: rgba(255,255,255,0.85); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(102, 126, 234, 0.3);}
     .sintaks-title { font-weight: 700; color: #2c3e50; font-size: 0.95rem; margin-bottom: 10px;}
-    
-    /* Panel Kalkulator Waktu Melayang */
     #timeTracker {
-      position: sticky; top: 20px; z-index: 100;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white; font-weight: 700; text-align: center;
-      border-radius: 30px; padding: 12px 20px; margin-bottom: 25px;
+      position: sticky; top: 20px; z-index: 100; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; font-weight: 700; text-align: center; border-radius: 30px; padding: 12px 20px; margin-bottom: 25px;
       box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4); transition: 0.3s;
     }
     .time-alert { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; }
     .time-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important; }
-
     .btn-custom {
-      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-      border: none; color: white; font-weight: 700; border-radius: 30px;
-      padding: 15px; width: 100%; font-size: 1.1rem; transition: 0.3s;
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; color: white; font-weight: 700; 
+      border-radius: 30px; padding: 15px; width: 100%; font-size: 1.1rem; transition: 0.3s;
     }
     .btn-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3); color: white;}
   </style>
@@ -71,46 +52,42 @@
     <h2 class="mb-2">📝 Detail Pembelajaran</h2>
     <p class="text-center text-muted mb-4" id="judulModel" style="font-weight: 600;">Memuat Model...</p>
 
-    <!-- Kalkulator Waktu -->
-    <div id="timeTracker">Total Waktu Sesi: <span id="displayTotal">0</span> Menit | Sisa Waktu Pembagian: <span id="displaySisa">0</span> Menit</div>
+    <div id="timeTracker">Total Waktu: <span id="displayTotal">0</span> Menit | Sisa: <span id="displaySisa">0</span> Menit</div>
 
     <form id="formLengkap">
       
       <!-- BAGIAN 1: KOMPONEN INTI -->
       <div class="section-card">
         <h5 class="section-title">1. Komponen Inti</h5>
-        
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Capaian Kompetensi (CP)</label>
-            <textarea class="form-control" rows="3" required>Peserta didik mampu memahami konsep dasar pemecahan masalah dan menerapkannya dalam kehidupan sehari-hari secara kritis dan kreatif.</textarea>
+            <textarea class="form-control" id="cp" rows="3" required>Peserta didik mampu memahami konsep dasar pemecahan masalah dan menerapkannya dalam kehidupan sehari-hari secara kritis dan kreatif.</textarea>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Tujuan Pembelajaran (TP)</label>
-            <textarea class="form-control" rows="3" required>Melalui diskusi kelompok, peserta didik dapat mengidentifikasi masalah pencemaran lingkungan dan merancang satu solusi sederhana dengan tepat.</textarea>
+            <textarea class="form-control" id="tp" rows="3" required>Melalui diskusi kelompok, peserta didik dapat mengidentifikasi masalah pencemaran lingkungan dan merancang satu solusi sederhana dengan tepat.</textarea>
           </div>
         </div>
-
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Materi Esensial</label>
-            <textarea class="form-control" rows="2" required>Penyebab pencemaran lingkungan (sampah plastik) dan dampaknya.</textarea>
+            <textarea class="form-control" id="materi" rows="2" required>Penyebab pencemaran lingkungan (sampah plastik) dan dampaknya.</textarea>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Pertanyaan Pemantik</label>
-            <textarea class="form-control" rows="2" required>"Pernahkah kalian melihat tumpukan botol plastik di sungai? Apa yang akan terjadi jika dibiarkan?"</textarea>
+            <textarea class="form-control" id="pemantik" rows="2" required>"Pernahkah kalian melihat tumpukan botol plastik di sungai? Apa yang akan terjadi jika dibiarkan?"</textarea>
           </div>
         </div>
-
         <div class="mb-2">
-          <label class="form-label">Dimensi Profil Pelajar Pancasila (Pilih yang relevan)</label>
+          <label class="form-label">Dimensi Profil Pelajar Pancasila</label>
           <div class="row px-2">
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Beriman & Bertaqwa</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Bergotong Royong</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Bernalar Kritis</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox"> <label class="form-check-label" style="font-size:0.85rem">Mandiri</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label" style="font-size:0.85rem">Kreatif</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input" type="checkbox"> <label class="form-check-label" style="font-size:0.85rem">Berkebinekaan Global</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Beriman & Bertaqwa" type="checkbox" checked> <label class="form-check-label">Beriman & Bertaqwa</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bergotong Royong" type="checkbox" checked> <label class="form-check-label">Bergotong Royong</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bernalar Kritis" type="checkbox" checked> <label class="form-check-label">Bernalar Kritis</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Mandiri" type="checkbox"> <label class="form-check-label">Mandiri</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Kreatif" type="checkbox" checked> <label class="form-check-label">Kreatif</label></div></div>
+            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Berkebinekaan Global" type="checkbox"> <label class="form-check-label">Berkebinekaan Global</label></div></div>
           </div>
         </div>
       </div>
@@ -121,27 +98,27 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Pendekatan Pembelajaran</label>
-            <input type="text" class="form-control" value="Pendekatan Saintifik, TPACK" required>
+            <input type="text" class="form-control" id="pendekatan" value="Pendekatan Saintifik, TPACK" required>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Metode Pembelajaran</label>
-            <input type="text" class="form-control" value="Diskusi Kelompok, Tanya Jawab, Penugasan" required>
+            <input type="text" class="form-control" id="metode" value="Diskusi Kelompok, Tanya Jawab, Penugasan" required>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Pemanfaatan Digital (EdTech)</label>
-            <input type="text" class="form-control" value="Video YouTube, Google Jamboard, Quizizz" required>
+            <input type="text" class="form-control" id="digital" value="Video YouTube, Google Jamboard, Quizizz" required>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Sarana & Prasarana</label>
-            <input type="text" class="form-control" value="Proyektor, Laptop, Kertas Karton, Spidol" required>
+            <input type="text" class="form-control" id="sarpras" value="Proyektor, Laptop, Kertas Karton, Spidol" required>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Lingkungan Pembelajaran</label>
-            <input type="text" class="form-control" value="Ruang Kelas & Halaman Sekolah" required>
+            <input type="text" class="form-control" id="lingkungan" value="Ruang Kelas & Halaman Sekolah" required>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label">Mitra Pembelajaran (Jika ada)</label>
-            <input type="text" class="form-control" value="Petugas Kebersihan Sekolah (Narasumber singkat)">
+            <input type="text" class="form-control" id="mitra" value="Petugas Kebersihan Sekolah (Narasumber singkat)">
           </div>
         </div>
       </div>
@@ -149,20 +126,17 @@
       <!-- BAGIAN 3: SINTAKS (OTOMATIS) -->
       <div class="section-card">
         <h5 class="section-title">3. Skenario & Langkah Pembelajaran (Sintaks)</h5>
-        <div class="alert alert-info" style="font-size: 0.85rem; padding: 10px;">
-          💡 <b>Tips:</b> Petakan pengalaman belajar (Memahami/Mengaplikasikan/Merefleksi) pada setiap fase, lalu atur jam/menitnya hingga sisa waktu mencapai 0!
-        </div>
-        
+        <div class="alert alert-info" style="font-size: 0.85rem; padding: 10px;">💡 <b>Tips:</b> Atur waktu hingga Sisa Waktu mencapai 0!</div>
         <div id="wadahSintaks"></div>
       </div>
 
       <!-- BAGIAN 4: ASESMEN & LAMPIRAN -->
       <div class="section-card">
-        <h5 class="section-title">4. Asesmen & Lampiran Pembelajaran</h5>
+        <h5 class="section-title">4. Asesmen & Lampiran</h5>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Jenis Asesmen</label>
-            <select class="form-select">
+            <select class="form-select" id="jenisAsesmen">
               <option>Formatif (Proses Belajar)</option>
               <option>Sumatif (Akhir Belajar)</option>
               <option>Diagnostik (Awal Kesiapan)</option>
@@ -171,25 +145,23 @@
           </div>
           <div class="col-md-4 mb-3">
             <label class="form-label">Metode Asesmen</label>
-            <input type="text" class="form-control" value="Observasi Kinerja & Tes Lisan" required>
+            <input type="text" class="form-control" id="metodeAsesmen" value="Observasi Kinerja & Tes Lisan" required>
           </div>
           <div class="col-md-4 mb-3">
             <label class="form-label">Bentuk Instrumen</label>
-            <input type="text" class="form-control" value="Rubrik Penilaian Presentasi" required>
-          </div>
-          
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Tautan / Upload Instrumen Asesmen (G-Drive)</label>
-            <input type="url" class="form-control" placeholder="https://drive.google.com/file/d/..." value="https://drive.google.com/">
+            <input type="text" class="form-control" id="instrumenAsesmen" value="Rubrik Penilaian Presentasi" required>
           </div>
           <div class="col-md-6 mb-3">
-            <label class="form-label">Tautan / Upload LKPD Siswa (G-Drive)</label>
-            <input type="url" class="form-control" placeholder="https://drive.google.com/file/d/..." value="https://drive.google.com/">
+            <label class="form-label">Tautan / Link Instrumen (Drive)</label>
+            <input type="url" class="form-control" id="linkInstrumen" value="https://drive.google.com/">
           </div>
-
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Tautan / Link LKPD Siswa (Drive)</label>
+            <input type="url" class="form-control" id="linkLkpd" value="https://drive.google.com/">
+          </div>
           <div class="col-12 mt-2">
-            <label class="form-label">Rencana Refleksi (Untuk Guru & Siswa)</label>
-            <textarea class="form-control" rows="2" required>Siswa: Mengisi emoji perasaan setelah belajar. Guru: Menilai apakah metode diskusi berjalan efektif.</textarea>
+            <label class="form-label">Rencana Refleksi</label>
+            <textarea class="form-control" id="refleksi" rows="2" required>Siswa: Mengisi emoji perasaan setelah belajar. Guru: Menilai apakah metode diskusi berjalan efektif.</textarea>
           </div>
         </div>
       </div>
@@ -199,145 +171,47 @@
   </div>
 
   <script>
-    // Database Template Sintaks Super Lengkap (15 Model)
+    // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
+    const API_URL = "MASUKKAN_URL_GAS_ANDA_DISINI";
+
     const masterSintaks = {
-      'M01': [ // PBL
-        "Fase 1: Orientasi siswa pada masalah",
-        "Fase 2: Mengorganisasi siswa untuk belajar",
-        "Fase 3: Membimbing penyelidikan individu/kelompok",
-        "Fase 4: Mengembangkan dan menyajikan hasil karya",
-        "Fase 5: Menganalisis dan mengevaluasi proses pemecahan masalah"
-      ],
-      'M02': [ // PjBL
-        "Fase 1: Pertanyaan mendasar (Start With the Essential Question)",
-        "Fase 2: Menyusun perencanaan proyek (Design a Plan for the Project)",
-        "Fase 3: Menyusun jadwal (Create a Schedule)",
-        "Fase 4: Memonitor siswa dan kemajuan proyek (Monitor the Students and the Progress)",
-        "Fase 5: Menguji hasil (Assess the Outcome)",
-        "Fase 6: Evaluasi pengalaman belajar (Evaluate the Experience)"
-      ],
-      'M03': [ // Cooperative Learning
-        "Fase 1: Menyampaikan tujuan dan memotivasi siswa",
-        "Fase 2: Menyajikan informasi",
-        "Fase 3: Mengorganisasikan siswa ke dalam kelompok-kelompok belajar",
-        "Fase 4: Membimbing kelompok bekerja dan belajar",
-        "Fase 5: Evaluasi",
-        "Fase 6: Memberikan penghargaan"
-      ],
-      'M04': [ // Discovery / Inquiry Learning
-        "Fase 1: Pemberian rangsangan (Stimulation)",
-        "Fase 2: Pernyataan/Identifikasi masalah (Problem Statement)",
-        "Fase 3: Pengumpulan data (Data Collection)",
-        "Fase 4: Pengolahan data (Data Processing)",
-        "Fase 5: Pembuktian (Verification)",
-        "Fase 6: Menarik simpulan/generalisasi (Generalization)"
-      ],
-      'M05': [ // CTL
-        "Fase 1: Mengembangkan pemikiran (Konstruktivisme)",
-        "Fase 2: Melaksanakan pengamatan (Inkuiri)",
-        "Fase 3: Mengembangkan sifat ingin tahu (Bertanya)",
-        "Fase 4: Menciptakan masyarakat belajar (Learning Community)",
-        "Fase 5: Menghadirkan model sebagai contoh pembelajaran (Pemodelan)",
-        "Fase 6: Melakukan refleksi di akhir pertemuan (Refleksi)",
-        "Fase 7: Melakukan penilaian yang sebenarnya (Asesmen Autentik)"
-      ],
-      'M06': [ // Direct Instruction
-        "Fase 1: Menyampaikan tujuan dan mempersiapkan siswa",
-        "Fase 2: Mendemonstrasikan pengetahuan atau keterampilan (I Do)",
-        "Fase 3: Membimbing pelatihan/Guided practice (We Do)",
-        "Fase 4: Mengecek pemahaman dan memberikan umpan balik",
-        "Fase 5: Memberikan latihan mandiri/Independent practice (You Do)"
-      ],
-      'M07': [ // Flipped Classroom
-        "Fase 1: Persiapan Mandiri (Di Rumah/Pra-Kelas via Video/Modul)",
-        "Fase 2: Diskusi & Klarifikasi Konsep (Awal Kelas)",
-        "Fase 3: Aktivitas Kolaboratif & Pemecahan Masalah (Inti Kelas)",
-        "Fase 4: Evaluasi & Umpan Balik (Akhir Kelas)"
-      ],
-      'M08': [ // Blended Learning
-        "Fase 1: Pertemuan Tatap Muka (Penyampaian Konsep Dasar)",
-        "Fase 2: Pembelajaran Mandiri Online (Eksplorasi Materi)",
-        "Fase 3: Kolaborasi Online (Forum Diskusi/Proyek Virtual)",
-        "Fase 4: Evaluasi Pembelajaran (Asesmen Terintegrasi)"
-      ],
-      'M09': [ // Game-Based Learning
-        "Fase 1: Penjelasan Aturan & Tujuan Permainan",
-        "Fase 2: Bermain/Simulasi (Game Play)",
-        "Fase 3: Refleksi & Diskusi Pengalaman Bermain",
-        "Fase 4: Penarikan Kesimpulan Akademik"
-      ],
-      'M10': [ // Quantum Learning (TANDUR)
-        "Fase 1: Tumbuhkan (Sertakan minat siswa/Apersepsi)",
-        "Fase 2: Alami (Hadirkan pengalaman umum yang dapat dimengerti semua siswa)",
-        "Fase 3: Namai (Sediakan kata kunci, konsep, atau rumus)",
-        "Fase 4: Demonstrasikan (Beri kesempatan mempraktikkan)",
-        "Fase 5: Ulangi (Tunjukkan bahwa mereka tahu dan kuasai)",
-        "Fase 6: Rayakan (Pengakuan penyelesaian/Apresiasi)"
-      ],
-      'M11': [ // Peer Teaching
-        "Fase 1: Penjelasan Konsep Umum oleh Guru",
-        "Fase 2: Pembagian Kelompok & Penunjukan Tutor Sebaya",
-        "Fase 3: Proses Bimbingan Sebaya (Tutor mengajar anggotanya)",
-        "Fase 4: Presentasi/Konfirmasi Pemahaman Kelompok",
-        "Fase 5: Evaluasi & Klarifikasi Miskonsepsi oleh Guru"
-      ],
-      'M12': [ // Team Games Tournament (TGT)
-        "Fase 1: Penyajian Kelas (Class Presentation)",
-        "Fase 2: Belajar Kelompok (Teams)",
-        "Fase 3: Permainan (Games Edukasi)",
-        "Fase 4: Turnamen (Tournament antar meja)",
-        "Fase 5: Penghargaan Kelompok (Team Recognition)"
-      ],
-      'M13': [ // Jigsaw
-        "Fase 1: Pembagian Kelompok Asal (Home Teams)",
-        "Fase 2: Pembentukan Kelompok Ahli (Expert Teams berdasarkan sub-topik)",
-        "Fase 3: Diskusi Kelompok Ahli (Mendalami materi spesifik)",
-        "Fase 4: Laporan/Mengajar di Kelompok Asal (Peer teaching)",
-        "Fase 5: Evaluasi/Kuis Individu"
-      ],
-      'M14': [ // Experiential Learning
-        "Fase 1: Pengalaman Konkret (Concrete Experience - Melakukan)",
-        "Fase 2: Observasi Reflektif (Reflective Observation - Mengamati)",
-        "Fase 3: Konseptualisasi Abstrak (Abstract Conceptualization - Memikirkan)",
-        "Fase 4: Eksperimentasi Aktif (Active Experimentation - Merencanakan aksi baru)"
-      ],
-      'M15': [ // Self-Directed Learning
-        "Fase 1: Penilaian Kesiapan Belajar Mandiri",
-        "Fase 2: Penetapan Tujuan Belajar Bersama Guru",
-        "Fase 3: Perencanaan Strategi Pembelajaran (Memilih sumber belajar)",
-        "Fase 4: Pelaksanaan Pembelajaran Mandiri (Eksplorasi)",
-        "Fase 5: Evaluasi Diri & Penilaian Hasil Belajar"
-      ]
+      'M01': ["Fase 1: Orientasi siswa pada masalah", "Fase 2: Mengorganisasi siswa untuk belajar", "Fase 3: Membimbing penyelidikan individu/kelompok", "Fase 4: Mengembangkan dan menyajikan hasil karya", "Fase 5: Menganalisis dan mengevaluasi proses pemecahan masalah"],
+      'M02': ["Fase 1: Pertanyaan mendasar", "Fase 2: Menyusun perencanaan proyek", "Fase 3: Menyusun jadwal", "Fase 4: Memonitor kemajuan proyek", "Fase 5: Menguji hasil", "Fase 6: Evaluasi pengalaman belajar"],
+      'M03': ["Fase 1: Menyampaikan tujuan dan memotivasi siswa", "Fase 2: Menyajikan informasi", "Fase 3: Mengorganisasikan siswa ke dalam kelompok", "Fase 4: Membimbing kelompok bekerja", "Fase 5: Evaluasi", "Fase 6: Memberikan penghargaan"],
+      'M04': ["Fase 1: Pemberian rangsangan (Stimulation)", "Fase 2: Pernyataan/Identifikasi masalah", "Fase 3: Pengumpulan data", "Fase 4: Pengolahan data", "Fase 5: Pembuktian", "Fase 6: Menarik simpulan"],
+      'M05': ["Fase 1: Mengembangkan pemikiran (Konstruktivisme)", "Fase 2: Melaksanakan pengamatan (Inkuiri)", "Fase 3: Mengembangkan sifat ingin tahu", "Fase 4: Menciptakan masyarakat belajar", "Fase 5: Menghadirkan model/contoh", "Fase 6: Melakukan refleksi", "Fase 7: Melakukan penilaian"],
+      'M06': ["Fase 1: Menyampaikan tujuan dan persiapan", "Fase 2: Mendemonstrasikan pengetahuan (I Do)", "Fase 3: Membimbing pelatihan (We Do)", "Fase 4: Mengecek pemahaman", "Fase 5: Latihan mandiri (You Do)"],
+      'M07': ["Fase 1: Persiapan Mandiri (Di Rumah/Pra-Kelas)", "Fase 2: Diskusi & Klarifikasi Konsep (Awal Kelas)", "Fase 3: Aktivitas Kolaboratif & Pemecahan Masalah", "Fase 4: Evaluasi & Umpan Balik"],
+      'M08': ["Fase 1: Pertemuan Tatap Muka (Penyampaian Konsep Dasar)", "Fase 2: Pembelajaran Mandiri Online", "Fase 3: Kolaborasi Online (Forum Diskusi/Proyek Virtual)", "Fase 4: Evaluasi Pembelajaran"],
+      'M09': ["Fase 1: Penjelasan Aturan & Tujuan Permainan", "Fase 2: Bermain/Simulasi (Game Play)", "Fase 3: Refleksi & Diskusi Pengalaman", "Fase 4: Penarikan Kesimpulan Akademik"],
+      'M10': ["Fase 1: Tumbuhkan (Sertakan minat siswa)", "Fase 2: Alami (Hadirkan pengalaman umum)", "Fase 3: Namai (Sediakan kata kunci)", "Fase 4: Demonstrasikan (Mempraktikkan)", "Fase 5: Ulangi (Tunjukkan penguasaan)", "Fase 6: Rayakan (Apresiasi)"],
+      'M11': ["Fase 1: Penjelasan Konsep Umum oleh Guru", "Fase 2: Pembagian Kelompok & Penunjukan Tutor Sebaya", "Fase 3: Proses Bimbingan Sebaya", "Fase 4: Presentasi/Konfirmasi Pemahaman", "Fase 5: Evaluasi & Klarifikasi Miskonsepsi"],
+      'M12': ["Fase 1: Penyajian Kelas (Class Presentation)", "Fase 2: Belajar Kelompok (Teams)", "Fase 3: Permainan (Games Edukasi)", "Fase 4: Turnamen (Tournament antar meja)", "Fase 5: Penghargaan Kelompok"],
+      'M13': ["Fase 1: Pembagian Kelompok Asal (Home Teams)", "Fase 2: Pembentukan Kelompok Ahli", "Fase 3: Diskusi Kelompok Ahli", "Fase 4: Laporan di Kelompok Asal (Peer teaching)", "Fase 5: Evaluasi/Kuis Individu"],
+      'M14': ["Fase 1: Pengalaman Konkret (Melakukan)", "Fase 2: Observasi Reflektif (Mengamati)", "Fase 3: Konseptualisasi Abstrak (Memikirkan)", "Fase 4: Eksperimentasi Aktif (Merencanakan aksi baru)"],
+      'M15': ["Fase 1: Penilaian Kesiapan Belajar Mandiri", "Fase 2: Penetapan Tujuan Belajar", "Fase 3: Perencanaan Strategi Pembelajaran", "Fase 4: Pelaksanaan Pembelajaran Mandiri", "Fase 5: Evaluasi Diri & Penilaian Hasil"]
     };
 
     let totalWaktu = 0;
 
     document.addEventListener("DOMContentLoaded", function() {
       let idModel = localStorage.getItem('lo_id_model');
-      let namaModel = localStorage.getItem('lo_nama_model');
-      let waktuAwal = localStorage.getItem('lo_waktu');
-      
       if(!idModel) {
         alert("Sesi terputus! Mengembalikan ke halaman awal.");
-        window.location.href = "index.html";
-        return;
+        window.location.href = "index.html"; return;
       }
-
-      totalWaktu = parseInt(waktuAwal) || 90;
-      document.getElementById('judulModel').innerText = namaModel;
+      totalWaktu = parseInt(localStorage.getItem('lo_waktu')) || 90;
+      document.getElementById('judulModel').innerText = localStorage.getItem('lo_nama_model');
       document.getElementById('displayTotal').innerText = totalWaktu;
       document.getElementById('displaySisa').innerText = totalWaktu;
 
       let wadah = document.getElementById('wadahSintaks');
-      let daftarFase = masterSintaks[idModel] || ["Fase Inti Pembelajaran (Sintaks Manual)"];
+      let daftarFase = masterSintaks[idModel] || ["Fase Inti Pembelajaran"];
 
-      // Looping untuk merender setiap fase
       daftarFase.forEach((fase, index) => {
         let box = document.createElement('div');
         box.className = 'sintaks-box';
         
-        // Contoh Pengisian Default
-        let placeholderAktivitas = `Guru memulai dengan... \nSiswa melakukan...`;
         let defaultPengalaman = "Memahami";
         if(index > 0 && index < daftarFase.length - 1) defaultPengalaman = "Mengaplikasikan";
         if(index === daftarFase.length - 1) defaultPengalaman = "Merefleksikan";
@@ -347,11 +221,11 @@
           <div class="row">
             <div class="col-md-7 mb-2">
               <label class="form-label text-muted">Aktivitas Guru & Siswa</label>
-              <textarea class="form-control" rows="2" required>${placeholderAktivitas}</textarea>
+              <textarea class="form-control input-aktivitas" rows="2" required>Guru memulai dengan... \nSiswa melakukan...</textarea>
             </div>
             <div class="col-md-3 mb-2">
               <label class="form-label text-muted">Pengalaman Belajar</label>
-              <select class="form-select">
+              <select class="form-select input-pengalaman">
                 <option ${defaultPengalaman === 'Memahami' ? 'selected' : ''}>Memahami</option>
                 <option ${defaultPengalaman === 'Mengaplikasikan' ? 'selected' : ''}>Mengaplikasikan</option>
                 <option ${defaultPengalaman === 'Merefleksikan' ? 'selected' : ''}>Merefleksikan</option>
@@ -367,45 +241,102 @@
       });
     });
 
-    // Fungsi Kalkulator Waktu Real-Time
     function hitungWaktu() {
       let inputs = document.querySelectorAll('.input-waktu');
       let totalTerpakai = 0;
-      
-      inputs.forEach(input => {
-        let val = parseInt(input.value) || 0;
-        totalTerpakai += val;
-      });
-
+      inputs.forEach(input => { totalTerpakai += parseInt(input.value) || 0; });
       let sisa = totalWaktu - totalTerpakai;
       let tracker = document.getElementById('timeTracker');
       let displaySisa = document.getElementById('displaySisa');
       
       displaySisa.innerText = sisa;
-
-      if (sisa > 0) {
-        tracker.className = ''; 
-        tracker.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-      } else if (sisa === 0) {
-        tracker.className = 'time-success'; // Hijau pas
-      } else {
-        tracker.className = 'time-alert'; // Merah over-time
-        displaySisa.innerText = sisa + " (Kelebihan Waktu!)";
-      }
+      if (sisa > 0) { tracker.className = ''; tracker.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      } else if (sisa === 0) { tracker.className = 'time-success';
+      } else { tracker.className = 'time-alert'; displaySisa.innerText = sisa + " (Kelebihan!)"; }
     }
 
-    // Aksi Submit Form
-    document.getElementById('formLengkap').addEventListener('submit', function(e) {
+    document.getElementById('formLengkap').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       let sisa = parseInt(document.getElementById('displaySisa').innerText);
       if(sisa !== 0) {
-        alert("Mohon atur waktu di setiap Sintaks agar Sisa Waktu Pembagian tepat 0 Menit!");
+        alert("Mohon atur waktu di setiap Sintaks agar Sisa Waktu persis 0 Menit!");
         return;
       }
 
-      alert("Luar Biasa! Seluruh RPP komprehensif Anda tersimpan. Menyiapkan Dasbor Play Mode...");
-      // Di tahap selanjutnya, kita akan mengirim struktur data final ini ke Google Apps Script
+      let btn = document.getElementById('btnSimpan');
+      btn.innerHTML = 'Menyimpan ke Database... ⏳'; btn.style.opacity = '0.7'; btn.disabled = true;
+
+      // 1. Mengumpulkan Profil Pancasila yang dicentang
+      let arrProfil = [];
+      document.querySelectorAll('.profil-cb:checked').forEach(cb => arrProfil.push(cb.value));
+
+      // 2. Mengumpulkan Ekosistem & Asesmen ke dalam JSON (agar muat di 1 kolom Sheets)
+      let dataEkosistem = JSON.stringify({
+        pendekatan: document.getElementById('pendekatan').value,
+        metode: document.getElementById('metode').value,
+        digital: document.getElementById('digital').value,
+        sarpras: document.getElementById('sarpras').value,
+        lingkungan: document.getElementById('lingkungan').value,
+        mitra: document.getElementById('mitra').value
+      });
+
+      let dataAsesmen = JSON.stringify({
+        jenis: document.getElementById('jenisAsesmen').value,
+        metode: document.getElementById('metodeAsesmen').value,
+        instrumen: document.getElementById('instrumenAsesmen').value,
+        link_instrumen: document.getElementById('linkInstrumen').value,
+        link_lkpd: document.getElementById('linkLkpd').value
+      });
+
+      // 3. Mengumpulkan Sintaks
+      let arrSintaks = [];
+      let boxes = document.querySelectorAll('.sintaks-box');
+      boxes.forEach(box => {
+        arrSintaks.push({
+          fase: box.querySelector('.sintaks-title').innerText,
+          aktivitas: box.querySelector('.input-aktivitas').value,
+          pengalaman: box.querySelector('.input-pengalaman').value,
+          durasi: parseInt(box.querySelector('.input-waktu').value)
+        });
+      });
+
+      // 4. Membungkus semua payload
+      let payload = {
+        idModul: localStorage.getItem('lo_id_modul'),
+        capaian: document.getElementById('cp').value,
+        tujuan: document.getElementById('tp').value,
+        materi: document.getElementById('materi').value,
+        pemantik: document.getElementById('pemantik').value,
+        profil: arrProfil.join(", "),
+        ekosistem: dataEkosistem,
+        asesmen: dataAsesmen,
+        refleksi: document.getElementById('refleksi').value,
+        sintaks_detail: arrSintaks
+      };
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        
+        if (result.status === "success") {
+          alert("Sempurna! RPP Komprehensif Anda berhasil dikunci di Database.");
+          btn.innerHTML = 'Berhasil! Menyiapkan Play Mode ✨';
+          btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+          
+          // Redirect ke halaman Play Mode yang akan kita buat
+          // window.location.href = "play.html";
+        } else {
+          alert("Error Database: " + result.message);
+          btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
+        }
+      } catch (error) {
+        alert("Gagal koneksi. Cek jaringan Anda.");
+        btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
+      }
     });
   </script>
 </body>
