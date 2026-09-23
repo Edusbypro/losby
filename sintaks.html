@@ -199,29 +199,114 @@
   </div>
 
   <script>
-    // Database Template Sintaks
+    // Database Template Sintaks Super Lengkap (15 Model)
     const masterSintaks = {
-      'M01': [
+      'M01': [ // PBL
         "Fase 1: Orientasi siswa pada masalah",
         "Fase 2: Mengorganisasi siswa untuk belajar",
         "Fase 3: Membimbing penyelidikan individu/kelompok",
         "Fase 4: Mengembangkan dan menyajikan hasil karya",
         "Fase 5: Menganalisis dan mengevaluasi proses pemecahan masalah"
       ],
-      'M02': [
-        "Fase 1: Pertanyaan mendasar",
-        "Fase 2: Menyusun perencanaan proyek",
-        "Fase 3: Menyusun jadwal",
-        "Fase 4: Memonitor kemajuan proyek",
-        "Fase 5: Menguji hasil (presentasi)",
-        "Fase 6: Evaluasi pengalaman belajar"
+      'M02': [ // PjBL
+        "Fase 1: Pertanyaan mendasar (Start With the Essential Question)",
+        "Fase 2: Menyusun perencanaan proyek (Design a Plan for the Project)",
+        "Fase 3: Menyusun jadwal (Create a Schedule)",
+        "Fase 4: Memonitor siswa dan kemajuan proyek (Monitor the Students and the Progress)",
+        "Fase 5: Menguji hasil (Assess the Outcome)",
+        "Fase 6: Evaluasi pengalaman belajar (Evaluate the Experience)"
       ],
-      'M06': [
+      'M03': [ // Cooperative Learning
+        "Fase 1: Menyampaikan tujuan dan memotivasi siswa",
+        "Fase 2: Menyajikan informasi",
+        "Fase 3: Mengorganisasikan siswa ke dalam kelompok-kelompok belajar",
+        "Fase 4: Membimbing kelompok bekerja dan belajar",
+        "Fase 5: Evaluasi",
+        "Fase 6: Memberikan penghargaan"
+      ],
+      'M04': [ // Discovery / Inquiry Learning
+        "Fase 1: Pemberian rangsangan (Stimulation)",
+        "Fase 2: Pernyataan/Identifikasi masalah (Problem Statement)",
+        "Fase 3: Pengumpulan data (Data Collection)",
+        "Fase 4: Pengolahan data (Data Processing)",
+        "Fase 5: Pembuktian (Verification)",
+        "Fase 6: Menarik simpulan/generalisasi (Generalization)"
+      ],
+      'M05': [ // CTL
+        "Fase 1: Mengembangkan pemikiran (Konstruktivisme)",
+        "Fase 2: Melaksanakan pengamatan (Inkuiri)",
+        "Fase 3: Mengembangkan sifat ingin tahu (Bertanya)",
+        "Fase 4: Menciptakan masyarakat belajar (Learning Community)",
+        "Fase 5: Menghadirkan model sebagai contoh pembelajaran (Pemodelan)",
+        "Fase 6: Melakukan refleksi di akhir pertemuan (Refleksi)",
+        "Fase 7: Melakukan penilaian yang sebenarnya (Asesmen Autentik)"
+      ],
+      'M06': [ // Direct Instruction
         "Fase 1: Menyampaikan tujuan dan mempersiapkan siswa",
-        "Fase 2: Mendemonstrasikan pengetahuan atau keterampilan",
-        "Fase 3: Membimbing pelatihan (guided practice)",
+        "Fase 2: Mendemonstrasikan pengetahuan atau keterampilan (I Do)",
+        "Fase 3: Membimbing pelatihan/Guided practice (We Do)",
         "Fase 4: Mengecek pemahaman dan memberikan umpan balik",
-        "Fase 5: Memberikan latihan mandiri (independent practice)"
+        "Fase 5: Memberikan latihan mandiri/Independent practice (You Do)"
+      ],
+      'M07': [ // Flipped Classroom
+        "Fase 1: Persiapan Mandiri (Di Rumah/Pra-Kelas via Video/Modul)",
+        "Fase 2: Diskusi & Klarifikasi Konsep (Awal Kelas)",
+        "Fase 3: Aktivitas Kolaboratif & Pemecahan Masalah (Inti Kelas)",
+        "Fase 4: Evaluasi & Umpan Balik (Akhir Kelas)"
+      ],
+      'M08': [ // Blended Learning
+        "Fase 1: Pertemuan Tatap Muka (Penyampaian Konsep Dasar)",
+        "Fase 2: Pembelajaran Mandiri Online (Eksplorasi Materi)",
+        "Fase 3: Kolaborasi Online (Forum Diskusi/Proyek Virtual)",
+        "Fase 4: Evaluasi Pembelajaran (Asesmen Terintegrasi)"
+      ],
+      'M09': [ // Game-Based Learning
+        "Fase 1: Penjelasan Aturan & Tujuan Permainan",
+        "Fase 2: Bermain/Simulasi (Game Play)",
+        "Fase 3: Refleksi & Diskusi Pengalaman Bermain",
+        "Fase 4: Penarikan Kesimpulan Akademik"
+      ],
+      'M10': [ // Quantum Learning (TANDUR)
+        "Fase 1: Tumbuhkan (Sertakan minat siswa/Apersepsi)",
+        "Fase 2: Alami (Hadirkan pengalaman umum yang dapat dimengerti semua siswa)",
+        "Fase 3: Namai (Sediakan kata kunci, konsep, atau rumus)",
+        "Fase 4: Demonstrasikan (Beri kesempatan mempraktikkan)",
+        "Fase 5: Ulangi (Tunjukkan bahwa mereka tahu dan kuasai)",
+        "Fase 6: Rayakan (Pengakuan penyelesaian/Apresiasi)"
+      ],
+      'M11': [ // Peer Teaching
+        "Fase 1: Penjelasan Konsep Umum oleh Guru",
+        "Fase 2: Pembagian Kelompok & Penunjukan Tutor Sebaya",
+        "Fase 3: Proses Bimbingan Sebaya (Tutor mengajar anggotanya)",
+        "Fase 4: Presentasi/Konfirmasi Pemahaman Kelompok",
+        "Fase 5: Evaluasi & Klarifikasi Miskonsepsi oleh Guru"
+      ],
+      'M12': [ // Team Games Tournament (TGT)
+        "Fase 1: Penyajian Kelas (Class Presentation)",
+        "Fase 2: Belajar Kelompok (Teams)",
+        "Fase 3: Permainan (Games Edukasi)",
+        "Fase 4: Turnamen (Tournament antar meja)",
+        "Fase 5: Penghargaan Kelompok (Team Recognition)"
+      ],
+      'M13': [ // Jigsaw
+        "Fase 1: Pembagian Kelompok Asal (Home Teams)",
+        "Fase 2: Pembentukan Kelompok Ahli (Expert Teams berdasarkan sub-topik)",
+        "Fase 3: Diskusi Kelompok Ahli (Mendalami materi spesifik)",
+        "Fase 4: Laporan/Mengajar di Kelompok Asal (Peer teaching)",
+        "Fase 5: Evaluasi/Kuis Individu"
+      ],
+      'M14': [ // Experiential Learning
+        "Fase 1: Pengalaman Konkret (Concrete Experience - Melakukan)",
+        "Fase 2: Observasi Reflektif (Reflective Observation - Mengamati)",
+        "Fase 3: Konseptualisasi Abstrak (Abstract Conceptualization - Memikirkan)",
+        "Fase 4: Eksperimentasi Aktif (Active Experimentation - Merencanakan aksi baru)"
+      ],
+      'M15': [ // Self-Directed Learning
+        "Fase 1: Penilaian Kesiapan Belajar Mandiri",
+        "Fase 2: Penetapan Tujuan Belajar Bersama Guru",
+        "Fase 3: Perencanaan Strategi Pembelajaran (Memilih sumber belajar)",
+        "Fase 4: Pelaksanaan Pembelajaran Mandiri (Eksplorasi)",
+        "Fase 5: Evaluasi Diri & Penilaian Hasil Belajar"
       ]
     };
 
