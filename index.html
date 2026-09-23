@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learning Organizer - EduPro Surabaya - ArdiyatnaP</title>
+  <title>Learning Organizer By ArdiyatnaP</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
     .glass-card {
       background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
       border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2); padding: 40px; width: 100%; max-width: 750px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2); padding: 40px; width: 100%; max-width: 850px;
       animation: slideUp 0.8s ease-out forwards; opacity: 0; transform: translateY(30px);
     }
     @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
@@ -40,19 +40,23 @@
 <body>
 
   <div class="glass-card">
-    <h2>🚀 Learning Organizer</h2>
+    <h2>🚀 Learning Organizer by ArdiyatnaP</h2>
     <p class="text-center text-muted mb-4">Setup Awal Pembelajaran</p>
 
     <form id="formPerencanaan">
-      <!-- Baris 1: Nama Guru dan Asal Sekolah -->
+      <!-- Baris 1: Nama, NIP, dan Asal Sekolah -->
       <div class="row mb-3">
-        <div class="col-md-6 mb-3 mb-md-0">
+        <div class="col-md-4 mb-3 mb-md-0">
           <label class="form-label">Nama Guru</label>
           <input type="text" class="form-control" id="namaGuru" value="Ardiyatna Pranata" required>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <label class="form-label">NIP / NIK</label>
+          <input type="text" class="form-control" id="nipGuru" placeholder="Masukkan NIP (Jika ada)" required>
+        </div>
+        <div class="col-md-4">
           <label class="form-label">Asal Sekolah</label>
-          <input type="text" class="form-control" id="namaSekolah" placeholder="Contoh: SDN Kaliasin VII/286 Surabaya" required>
+          <input type="text" class="form-control" id="namaSekolah" placeholder="Contoh: SDN Kaliasin..." required>
         </div>
       </div>
       
@@ -108,7 +112,7 @@
         </select>
       </div>
 
-      <!-- Baris 4: Waktu dan Jumlah Pertemuan (Dirombak) -->
+      <!-- Baris 4: Waktu dan Jumlah Pertemuan -->
       <div class="row mb-4">
         <div class="col-md-6 mb-3 mb-md-0">
           <label class="form-label">Waktu Per Pertemuan (Menit)</label>
@@ -126,7 +130,7 @@
   </div>
 
   <script>
-    // --- GANTI URL DI BAWAH INI DENGAN URL DARI GOOGLE APPS SCRIPT ANDA ---
+    // URL API TETAP SAMA
     const API_URL = "https://script.google.com/macros/s/AKfycbzYzp1rzv10ya5yMA9f8YfISo31eIL-DuC6cuZKvDF79ytrUMH4Ssmsl4-KVhN-KA4wSg/exec";
     
     document.addEventListener("DOMContentLoaded", async function() {
@@ -169,7 +173,6 @@
       let btn = document.getElementById('btnLanjut');
       btn.innerHTML = 'Menyimpan Setup... ⏳'; btn.style.opacity = '0.7'; btn.disabled = true;
 
-      // Menggabungkan Mapel Utama dan Mapel Integrasi jika ada
       let mapelUtama = document.getElementById('mapel').value;
       let mapelIntegrasi = document.getElementById('mapelIntegrasi').value;
       let finalMapel = mapelIntegrasi ? (mapelUtama + " (Terintegrasi: " + mapelIntegrasi + ")") : mapelUtama;
@@ -177,13 +180,13 @@
       let dataRPP = {
         nama: document.getElementById('namaGuru').value,
         sekolah: document.getElementById('namaSekolah').value,
-        mapel: finalMapel, // Mapel sudah digabung
+        mapel: finalMapel, 
         kelas: document.getElementById('kelas').value,
         capaian: "", 
         tujuan: "",  
         waktu: document.getElementById('waktu').value,
         model: document.getElementById('modelPembelajaran').value,
-        jmlPertemuan: document.getElementById('jmlPertemuan').value // Mengirim jumlah pertemuan
+        jmlPertemuan: document.getElementById('jmlPertemuan').value 
       };
 
       try {
@@ -198,12 +201,18 @@
           let selectModel = document.getElementById('modelPembelajaran');
           let teksModel = selectModel.options[selectModel.selectedIndex].text;
           
-          // Menyimpan memori untuk Halaman 2
+          // Menyimpan memori untuk Halaman 2 dan Cetak Word
           localStorage.setItem('lo_id_modul', result.idModul); 
           localStorage.setItem('lo_id_model', dataRPP.model);  
           localStorage.setItem('lo_nama_model', teksModel);    
           localStorage.setItem('lo_waktu', dataRPP.waktu); 
-          localStorage.setItem('lo_pertemuan', dataRPP.jmlPertemuan); // Simpan Jml Pertemuan ke Memori
+          localStorage.setItem('lo_pertemuan', dataRPP.jmlPertemuan); 
+          
+          localStorage.setItem('lo_guru', dataRPP.nama);
+          localStorage.setItem('lo_nip', document.getElementById('nipGuru').value); // Menyimpan NIP
+          localStorage.setItem('lo_sekolah', dataRPP.sekolah);
+          localStorage.setItem('lo_mapel', dataRPP.mapel);
+          localStorage.setItem('lo_kelas', dataRPP.kelas);
 
           alert("Setup Awal berhasil disimpan! Menuju pengisian sintaks...");
           window.location.href = "sintaks.html";
