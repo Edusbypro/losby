@@ -50,7 +50,12 @@
 
   <div class="glass-container">
     <h2 class="mb-2">📝 Detail Pembelajaran</h2>
-    <p class="text-center text-muted mb-4" id="judulModel" style="font-weight: 600;">Memuat Model...</p>
+    
+    <!-- KOTAK PENGINGAT MODEL PEMBELAJARAN (MENCOLOK) -->
+    <div class="alert alert-primary text-center mb-4" style="border-radius: 15px; border: 2px dashed #667eea; background: rgba(255,255,255,0.7); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+      <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #576574; font-weight: 600;">Model Pembelajaran Terpilih:</span><br>
+      <strong id="judulModel" style="font-size: 1.25rem; color: #2c3e50;">Memuat Model...</strong>
+    </div>
 
     <div id="timeTracker">Total Waktu: <span id="displayTotal">0</span> Menit | Sisa: <span id="displaySisa">0</span> Menit</div>
 
@@ -166,123 +171,32 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-custom" id="btnSimpan">Simpan Data Lengkap & Masuk Play Mode 🚀</button>
+      <div class="d-flex gap-3 mt-4">
+        <button type="button" class="btn btn-outline-dark" style="border-radius: 30px; font-weight: 700; padding: 15px; width: 40%; background: rgba(255,255,255,0.8);" onclick="downloadWord()">📝 Download Word (.doc)</button>
+        <button type="submit" class="btn btn-custom" id="btnSimpan" style="width: 60%; margin-top: 0;">Simpan & Masuk Play Mode 🚀</button>
+      </div>
     </form>
   </div>
 
   <script>
-    // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
     const API_URL = "https://script.google.com/macros/s/AKfycbzYzp1rzv10ya5yMA9f8YfISo31eIL-DuC6cuZKvDF79ytrUMH4Ssmsl4-KVhN-KA4wSg/exec";
 
-    // Database Template Sintaks + CONTOH BAKU (15 Model)
     const masterSintaks = {
-      'M01': [ // PBL
-        { fase: "Fase 1: Orientasi siswa pada masalah", contoh: "Guru menayangkan video/gambar tentang pencemaran sungai. Siswa mengamati dan dirangsang untuk bertanya mengenai penyebab dan dampak masalah tersebut." },
-        { fase: "Fase 2: Mengorganisasi siswa untuk belajar", contoh: "Guru membagi siswa ke dalam kelompok beranggota 4 orang. Siswa membagi tugas untuk mencari data terkait sumber pencemaran." },
-        { fase: "Fase 3: Membimbing penyelidikan individu/kelompok", contoh: "Siswa melakukan diskusi kelompok dan mencari literatur di buku/internet. Guru berkeliling memberikan *scaffolding* (bantuan terbatas)." },
-        { fase: "Fase 4: Mengembangkan dan menyajikan hasil karya", contoh: "Siswa menyusun laporan singkat atau poster solusi pemecahan masalah, lalu mempresentasikannya di depan kelas." },
-        { fase: "Fase 5: Menganalisis dan mengevaluasi", contoh: "Guru dan kelompok lain memberikan tanggapan. Guru meluruskan miskonsepsi dan memberikan penguatan konsep." }
-      ],
-      'M02': [ // PjBL
-        { fase: "Fase 1: Pertanyaan mendasar", contoh: "Guru memantik siswa: 'Bagaimana cara kita mengurangi sampah plastik di sekolah?' Siswa merespons dengan berbagai ide produk daur ulang." },
-        { fase: "Fase 2: Menyusun perencanaan proyek", contoh: "Siswa dalam kelompok berdiskusi menentukan jenis produk daur ulang yang akan dibuat, membagi peran, dan menyiapkan daftar alat/bahan." },
-        { fase: "Fase 3: Menyusun jadwal", contoh: "Guru dan siswa menyepakati tenggat waktu (misal: 2 pertemuan). Pertemuan pertama untuk desain, pertemuan kedua untuk perakitan." },
-        { fase: "Fase 4: Memonitor kemajuan proyek", contoh: "Siswa mulai membuat produk. Guru berkeliling memantau progres, mencatat keaktifan, dan membantu kendala teknis." },
-        { fase: "Fase 5: Menguji hasil (presentasi)", contoh: "Setiap kelompok memamerkan produk daur ulangnya (Pameran Karya/Gallery Walk). Kelompok lain memberikan apresiasi dan masukan." },
-        { fase: "Fase 6: Evaluasi pengalaman belajar", contoh: "Guru mengajak siswa merefleksikan perasaan mereka selama membuat proyek dan kendala apa yang berhasil diatasi." }
-      ],
-      'M03': [ // Cooperative Learning
-        { fase: "Fase 1: Menyampaikan tujuan & motivasi", contoh: "Guru menyampaikan tujuan pembelajaran hari ini dan menjelaskan pentingnya kerja sama tim dalam menyelesaikan misi." },
-        { fase: "Fase 2: Menyajikan informasi", contoh: "Guru memberikan penjelasan materi inti secara singkat (ceramah/video) sebagai bekal dasar bagi siswa." },
-        { fase: "Fase 3: Mengorganisasikan kelompok", contoh: "Guru membagi kelas menjadi kelompok heterogen (campuran tingkat kemampuan). Guru membagikan Lembar Kerja Kelompok." },
-        { fase: "Fase 4: Membimbing kelompok bekerja", contoh: "Siswa saling berdiskusi dan tutor sebaya di dalam kelompok. Guru memantau dinamika interaksi antarsiswa." },
-        { fase: "Fase 5: Evaluasi", contoh: "Guru memberikan kuis individual untuk mengukur pemahaman masing-masing siswa setelah belajar berkelompok." },
-        { fase: "Fase 6: Memberikan penghargaan", contoh: "Guru mengumumkan kelompok dengan skor rata-rata tertinggi dan memberikan apresiasi (sertifikat/bintang)." }
-      ],
-      'M04': [ // Discovery Learning
-        { fase: "Fase 1: Pemberian rangsangan", contoh: "Guru membawa dua gelas berisi air tawar dan air garam, lalu memasukkan telur ke dalamnya (satu tenggelam, satu mengapung). Siswa mengamati keheranan." },
-        { fase: "Fase 2: Identifikasi masalah", contoh: "Siswa merumuskan hipotesis: 'Mengapa telur bisa mengapung di air garam?'" },
-        { fase: "Fase 3: Pengumpulan data", contoh: "Siswa melakukan eksperimen sendiri dengan menambahkan garam sendok demi sendok dan mencatat perubahannya." },
-        { fase: "Fase 4: Pengolahan data", contoh: "Siswa mendiskusikan hasil catatannya dan membandingkan antara jumlah garam dengan posisi telur." },
-        { fase: "Fase 5: Pembuktian", contoh: "Siswa mencocokkan hasil eksperimen mereka dengan teori massa jenis zat cair dari buku teks." },
-        { fase: "Fase 6: Menarik simpulan", contoh: "Siswa menyimpulkan bahwa penambahan garam meningkatkan massa jenis air." }
-      ],
-      'M05': [ // CTL
-        { fase: "Fase 1: Konstruktivisme (Membangun konsep)", contoh: "Guru meminta siswa menceritakan pengalamannya berbelanja di pasar tradisional untuk mengaitkan materi aritmatika sosial." },
-        { fase: "Fase 2: Inkuiri (Menyelidiki)", contoh: "Siswa dibagi kelompok untuk menyelidiki brosur diskon minimarket dan mencari tahu harga asli." },
-        { fase: "Fase 3: Bertanya (Questioning)", contoh: "Guru mendorong siswa saling bertanya kepada kelompok lain terkait cara perhitungan diskon yang mereka gunakan." },
-        { fase: "Fase 4: Masyarakat Belajar (Learning Community)", contoh: "Siswa berdiskusi menyatukan pendapat dan menemukan rumus diskon secara bersama-sama." },
-        { fase: "Fase 5: Pemodelan (Modeling)", contoh: "Guru mendemonstrasikan satu contoh cara berhitung cepat diskon sebagai model acuan siswa." },
-        { fase: "Fase 6: Refleksi", contoh: "Siswa mencatat apa saja hal baru yang mereka temukan hari ini terkait aritmatika sosial." },
-        { fase: "Fase 7: Asesmen Autentik", contoh: "Siswa diberi tugas mempraktikkan simulasi jual beli di depan kelas." }
-      ],
-      'M06': [ // Direct Instruction
-        { fase: "Fase 1: Tujuan dan Persiapan", contoh: "Guru menyebutkan tujuan pembelajaran (mampu melukis sudut 90 derajat) dan memastikan semua siswa membawa jangka." },
-        { fase: "Fase 2: Demonstrasi (I Do)", contoh: "Guru mempraktikkan langkah-demi-langkah melukis sudut 90 derajat menggunakan alat peraga besar di papan tulis, sambil menjelaskan alasannya." },
-        { fase: "Fase 3: Latihan Terbimbing (We Do)", contoh: "Siswa melukis di buku masing-masing secara bersama-sama mengikuti aba-aba dan hitungan langkah dari guru." },
-        { fase: "Fase 4: Cek Pemahaman", contoh: "Guru berkeliling mengecek hasil goresan jangka siswa dan mengoreksi jika ada titik tumpu yang salah." },
-        { fase: "Fase 5: Latihan Mandiri (You Do)", contoh: "Siswa diberikan 3 soal untuk melukis sudut secara mandiri tanpa panduan langsung dari guru." }
-      ],
-      'M07': [ // Flipped Classroom
-        { fase: "Fase 1: Persiapan Mandiri (Di Rumah)", contoh: "Siswa ditugaskan menonton video YouTube tentang proses fotosintesis yang sudah di-share guru semalam." },
-        { fase: "Fase 2: Diskusi Awal (Awal Kelas)", contoh: "Guru memandu sesi Q&A singkat: 'Apa bagian dari video semalam yang paling sulit dipahami?'" },
-        { fase: "Fase 3: Aktivitas Kolaboratif", contoh: "Waktu kelas dihabiskan 100% untuk eksperimen uji amilum pada daun (pembuktian fotosintesis) dalam kelompok." },
-        { fase: "Fase 4: Evaluasi & Umpan Balik", contoh: "Siswa mempresentasikan hasil uji daunnya, guru memberikan penilaian formatif." }
-      ],
-      'M08': [ // Blended Learning
-        { fase: "Fase 1: Tatap Muka (Penyampaian Konsep)", contoh: "Guru menjelaskan konsep dasar Tata Surya secara langsung di dalam kelas menggunakan proyektor." },
-        { fase: "Fase 2: Pembelajaran Online", contoh: "Siswa mengakses Google Classroom di rumah untuk membaca modul interaktif planet-planet." },
-        { fase: "Fase 3: Kolaborasi Virtual", contoh: "Siswa berdiskusi di forum LMS terkait pertanyaan pemantik: 'Mungkinkah ada kehidupan di Mars?'" },
-        { fase: "Fase 4: Asesmen Terintegrasi", contoh: "Siswa mengerjakan kuis online di Quizizz yang nilainya otomatis masuk ke rekap guru." }
-      ],
-      'M09': [ // Game-Based Learning
-        { fase: "Fase 1: Penjelasan Aturan", contoh: "Guru menjelaskan aturan permainan 'Estafet Kosakata Bahasa Inggris' dan sistem poinnya." },
-        { fase: "Fase 2: Bermain (Game Play)", contoh: "Siswa berbaris memanjang, bergiliran berlari ke papan tulis untuk menuliskan kosa kata secara estafet dalam waktu 5 menit." },
-        { fase: "Fase 3: Refleksi Pengalaman", contoh: "Siswa mengatur napas, guru bertanya bagaimana strategi tim mereka agar bisa cepat dan tepat." },
-        { fase: "Fase 4: Penarikan Kesimpulan", contoh: "Guru mengoreksi kosakata di papan tulis dan memberikan penguatan makna atas kata-kata tersebut." }
-      ],
-      'M10': [ // Quantum Learning (TANDUR)
-        { fase: "Fase 1: Tumbuhkan (Apersepsi)", contoh: "Guru memutar musik instrumental yang tenang dan mengajak siswa berimajinasi berada di pegunungan (materi Puisi)." },
-        { fase: "Fase 2: Alami", contoh: "Siswa diajak keluar kelas selama 5 menit untuk menyentuh daun dan merasakan angin untuk mendapatkan inspirasi." },
-        { fase: "Fase 3: Namai", contoh: "Guru menjelaskan bahwa kata-kata indah yang mewakili perasaan tadi disebut 'Diksi' dan 'Majas'." },
-        { fase: "Fase 4: Demonstrasikan", contoh: "Siswa mulai menulis puisi 2 bait berdasarkan pengalaman di luar kelas tadi." },
-        { fase: "Fase 5: Ulangi", contoh: "Beberapa siswa diminta membacakan puisinya dengan lantang." },
-        { fase: "Fase 6: Rayakan", contoh: "Seluruh kelas memberikan *applause* meriah dan yel-yel penyemangat untuk siswa yang berani tampil." }
-      ],
-      'M11': [ // Peer Teaching
-        { fase: "Fase 1: Penjelasan Konsep Umum", contoh: "Guru menjelaskan konsep Operasi Pecahan secara garis besar selama 15 menit." },
-        { fase: "Fase 2: Penunjukan Tutor Sebaya", contoh: "Guru membagi kelompok dan menunjuk 1 siswa yang memiliki pemahaman cepat (Tutor) di setiap kelompok." },
-        { fase: "Fase 3: Proses Bimbingan Sebaya", contoh: "Tutor sebaya mengajarkan ulang cara menyamakan penyebut kepada teman sekelompoknya menggunakan bahasa mereka sendiri." },
-        { fase: "Fase 4: Konfirmasi Pemahaman", contoh: "Anggota (bukan tutor) ditunjuk secara acak untuk mengerjakan soal di papan tulis." },
-        { fase: "Fase 5: Evaluasi & Klarifikasi", contoh: "Guru mengklarifikasi jika ada langkah tutor yang keliru dan memberikan penekanan konsep." }
-      ],
-      'M12': [ // Team Games Tournament (TGT)
-        { fase: "Fase 1: Penyajian Kelas", contoh: "Guru menyajikan materi Sejarah Kemerdekaan menggunakan presentasi." },
-        { fase: "Fase 2: Belajar Kelompok", contoh: "Siswa kembali ke kelompoknya untuk saling menguji hafalan tokoh dan tahun kejadian (drill & practice)." },
-        { fase: "Fase 3: Permainan", contoh: "Setiap perwakilan kelompok maju ke meja turnamen untuk mengambil kartu soal secara acak." },
-        { fase: "Fase 4: Turnamen", contoh: "Siswa beradu cepat menjawab kartu soal. Jika benar mendapat skor untuk tim asalnya." },
-        { fase: "Fase 5: Penghargaan Kelompok", contoh: "Skor diakumulasi, guru memberikan predikat 'Super Team', 'Great Team', dan 'Good Team'." }
-      ],
-      'M13': [ // Jigsaw
-        { fase: "Fase 1: Kelompok Asal", contoh: "Siswa dibagi menjadi kelompok beranggota 3 orang. Materi dibagi 3: Akar, Batang, dan Daun." },
-        { fase: "Fase 2: Kelompok Ahli", contoh: "Siswa yang mendapat materi 'Akar' berkumpul dengan siswa 'Akar' dari kelompok lain untuk mendalami materinya bersama." },
-        { fase: "Fase 3: Diskusi Ahli", contoh: "Kelompok ahli membuat catatan penting dan strategi bagaimana mengajarkannya nanti." },
-        { fase: "Fase 4: Mengajar di Kelompok Asal", contoh: "Siswa kembali ke kelompok asalnya. Si Ahli Akar mengajari temannya, bergantian dengan Ahli Batang dan Daun." },
-        { fase: "Fase 5: Evaluasi Individu", contoh: "Siswa diberi kuis tertulis mencakup seluruh materi (Akar, Batang, Daun) secara mandiri." }
-      ],
-      'M14': [ // Experiential Learning
-        { fase: "Fase 1: Pengalaman Konkret", contoh: "Siswa dibawa ke kebun sekolah dan langsung ditugaskan menanam biji kacang hijau di media yang berbeda (tanah vs kapas)." },
-        { fase: "Fase 2: Observasi Reflektif", contoh: "Selama 3 hari, siswa mengamati dan mencatat perbedaan kecepatan pertumbuhan tunas." },
-        { fase: "Fase 3: Konseptualisasi Abstrak", contoh: "Siswa memikirkan dan menarik teori mengapa media tanah membuat batang tumbuh lebih kuat dibanding kapas." },
-        { fase: "Fase 4: Eksperimentasi Aktif", contoh: "Siswa merencanakan eksperimen lanjutan dengan mencoba menambahkan pupuk cair." }
-      ],
-      'M15': [ // Self-Directed Learning
-        { fase: "Fase 1: Penilaian Kesiapan", contoh: "Guru memberikan kuesioner minat untuk mengetahui topik sains apa yang paling diminati tiap individu." },
-        { fase: "Fase 2: Penetapan Tujuan", contoh: "Siswa A memilih membuat proyek gunung meletus, Siswa B memilih proyek tata surya. Guru menyetujuinya." },
-        { fase: "Fase 3: Perencanaan Strategi", contoh: "Siswa secara mandiri membuat jadwal kapan mencari alat bahan, dan kapan merakitnya." },
-        { fase: "Fase 4: Pelaksanaan Mandiri", contoh: "Siswa mengeksekusi belajarnya sendiri di perpustakaan/lab. Guru memantau dari jauh." },
-        { fase: "Fase 5: Evaluasi Diri", contoh: "Siswa membuat video refleksi tentang seberapa puas mereka dengan hasil proyek buatannya sendiri." }
-      ]
+      'M01': [ { fase: "Fase 1: Orientasi siswa pada masalah", contoh: "Guru menayangkan video/gambar tentang pencemaran sungai. Siswa mengamati dan dirangsang untuk bertanya mengenai penyebab dan dampak masalah tersebut." }, { fase: "Fase 2: Mengorganisasi siswa untuk belajar", contoh: "Guru membagi siswa ke dalam kelompok beranggota 4 orang. Siswa membagi tugas untuk mencari data terkait sumber pencemaran." }, { fase: "Fase 3: Membimbing penyelidikan individu/kelompok", contoh: "Siswa melakukan diskusi kelompok dan mencari literatur di buku/internet. Guru berkeliling memberikan *scaffolding* (bantuan terbatas)." }, { fase: "Fase 4: Mengembangkan dan menyajikan hasil karya", contoh: "Siswa menyusun laporan singkat atau poster solusi pemecahan masalah, lalu mempresentasikannya di depan kelas." }, { fase: "Fase 5: Menganalisis dan mengevaluasi", contoh: "Guru dan kelompok lain memberikan tanggapan. Guru meluruskan miskonsepsi dan memberikan penguatan konsep." } ],
+      'M02': [ { fase: "Fase 1: Pertanyaan mendasar", contoh: "Guru memantik siswa: 'Bagaimana cara kita mengurangi sampah plastik di sekolah?' Siswa merespons dengan berbagai ide produk daur ulang." }, { fase: "Fase 2: Menyusun perencanaan proyek", contoh: "Siswa dalam kelompok berdiskusi menentukan jenis produk daur ulang yang akan dibuat, membagi peran, dan menyiapkan daftar alat/bahan." }, { fase: "Fase 3: Menyusun jadwal", contoh: "Guru dan siswa menyepakati tenggat waktu (misal: 2 pertemuan). Pertemuan pertama untuk desain, pertemuan kedua untuk perakitan." }, { fase: "Fase 4: Memonitor kemajuan proyek", contoh: "Siswa mulai membuat produk. Guru berkeliling memantau progres, mencatat keaktifan, dan membantu kendala teknis." }, { fase: "Fase 5: Menguji hasil (presentasi)", contoh: "Setiap kelompok memamerkan produk daur ulangnya (Pameran Karya/Gallery Walk). Kelompok lain memberikan apresiasi dan masukan." }, { fase: "Fase 6: Evaluasi pengalaman belajar", contoh: "Guru mengajak siswa merefleksikan perasaan mereka selama membuat proyek dan kendala apa yang berhasil diatasi." } ],
+      'M03': [ { fase: "Fase 1: Menyampaikan tujuan & motivasi", contoh: "Guru menyampaikan tujuan pembelajaran hari ini dan menjelaskan pentingnya kerja sama tim dalam menyelesaikan misi." }, { fase: "Fase 2: Menyajikan informasi", contoh: "Guru memberikan penjelasan materi inti secara singkat (ceramah/video) sebagai bekal dasar bagi siswa." }, { fase: "Fase 3: Mengorganisasikan kelompok", contoh: "Guru membagi kelas menjadi kelompok heterogen (campuran tingkat kemampuan). Guru membagikan Lembar Kerja Kelompok." }, { fase: "Fase 4: Membimbing kelompok bekerja", contoh: "Siswa saling berdiskusi dan tutor sebaya di dalam kelompok. Guru memantau dinamika interaksi antarsiswa." }, { fase: "Fase 5: Evaluasi", contoh: "Guru memberikan kuis individual untuk mengukur pemahaman masing-masing siswa setelah belajar berkelompok." }, { fase: "Fase 6: Memberikan penghargaan", contoh: "Guru mengumumkan kelompok dengan skor rata-rata tertinggi dan memberikan apresiasi (sertifikat/bintang)." } ],
+      'M04': [ { fase: "Fase 1: Pemberian rangsangan", contoh: "Guru membawa dua gelas berisi air tawar dan air garam, lalu memasukkan telur ke dalamnya (satu tenggelam, satu mengapung). Siswa mengamati keheranan." }, { fase: "Fase 2: Identifikasi masalah", contoh: "Siswa merumuskan hipotesis: 'Mengapa telur bisa mengapung di air garam?'" }, { fase: "Fase 3: Pengumpulan data", contoh: "Siswa melakukan eksperimen sendiri dengan menambahkan garam sendok demi sendok dan mencatat perubahannya." }, { fase: "Fase 4: Pengolahan data", contoh: "Siswa mendiskusikan hasil catatannya dan membandingkan antara jumlah garam dengan posisi telur." }, { fase: "Fase 5: Pembuktian", contoh: "Siswa mencocokkan hasil eksperimen mereka dengan teori massa jenis zat cair dari buku teks." }, { fase: "Fase 6: Menarik simpulan", contoh: "Siswa menyimpulkan bahwa penambahan garam meningkatkan massa jenis air." } ],
+      'M05': [ { fase: "Fase 1: Konstruktivisme (Membangun konsep)", contoh: "Guru meminta siswa menceritakan pengalamannya berbelanja di pasar tradisional untuk mengaitkan materi aritmatika sosial." }, { fase: "Fase 2: Inkuiri (Menyelidiki)", contoh: "Siswa dibagi kelompok untuk menyelidiki brosur diskon minimarket dan mencari tahu harga asli." }, { fase: "Fase 3: Bertanya (Questioning)", contoh: "Guru mendorong siswa saling bertanya kepada kelompok lain terkait cara perhitungan diskon yang mereka gunakan." }, { fase: "Fase 4: Masyarakat Belajar (Learning Community)", contoh: "Siswa berdiskusi menyatukan pendapat dan menemukan rumus diskon secara bersama-sama." }, { fase: "Fase 5: Pemodelan (Modeling)", contoh: "Guru mendemonstrasikan satu contoh cara berhitung cepat diskon sebagai model acuan siswa." }, { fase: "Fase 6: Refleksi", contoh: "Siswa mencatat apa saja hal baru yang mereka temukan hari ini terkait aritmatika sosial." }, { fase: "Fase 7: Asesmen Autentik", contoh: "Siswa diberi tugas mempraktikkan simulasi jual beli di depan kelas." } ],
+      'M06': [ { fase: "Fase 1: Tujuan dan Persiapan", contoh: "Guru menyebutkan tujuan pembelajaran (mampu melukis sudut 90 derajat) dan memastikan semua siswa membawa jangka." }, { fase: "Fase 2: Demonstrasi (I Do)", contoh: "Guru mempraktikkan langkah-demi-langkah melukis sudut 90 derajat menggunakan alat peraga besar di papan tulis, sambil menjelaskan alasannya." }, { fase: "Fase 3: Latihan Terbimbing (We Do)", contoh: "Siswa melukis di buku masing-masing secara bersama-sama mengikuti aba-aba dan hitungan langkah dari guru." }, { fase: "Fase 4: Cek Pemahaman", contoh: "Guru berkeliling mengecek hasil goresan jangka siswa dan mengoreksi jika ada titik tumpu yang salah." }, { fase: "Fase 5: Latihan Mandiri (You Do)", contoh: "Siswa diberikan 3 soal untuk melukis sudut secara mandiri tanpa panduan langsung dari guru." } ],
+      'M07': [ { fase: "Fase 1: Persiapan Mandiri (Di Rumah)", contoh: "Siswa ditugaskan menonton video YouTube tentang proses fotosintesis yang sudah di-share guru semalam." }, { fase: "Fase 2: Diskusi Awal (Awal Kelas)", contoh: "Guru memandu sesi Q&A singkat: 'Apa bagian dari video semalam yang paling sulit dipahami?'" }, { fase: "Fase 3: Aktivitas Kolaboratif", contoh: "Waktu kelas dihabiskan 100% untuk eksperimen uji amilum pada daun (pembuktian fotosintesis) dalam kelompok." }, { fase: "Fase 4: Evaluasi & Umpan Balik", contoh: "Siswa mempresentasikan hasil uji daunnya, guru memberikan penilaian formatif." } ],
+      'M08': [ { fase: "Fase 1: Tatap Muka (Penyampaian Konsep)", contoh: "Guru menjelaskan konsep dasar Tata Surya secara langsung di dalam kelas menggunakan proyektor." }, { fase: "Fase 2: Pembelajaran Online", contoh: "Siswa mengakses Google Classroom di rumah untuk membaca modul interaktif planet-planet." }, { fase: "Fase 3: Kolaborasi Virtual", contoh: "Siswa berdiskusi di forum LMS terkait pertanyaan pemantik: 'Mungkinkah ada kehidupan di Mars?'" }, { fase: "Fase 4: Asesmen Terintegrasi", contoh: "Siswa mengerjakan kuis online di Quizizz yang nilainya otomatis masuk ke rekap guru." } ],
+      'M09': [ { fase: "Fase 1: Penjelasan Aturan", contoh: "Guru menjelaskan aturan permainan 'Estafet Kosakata Bahasa Inggris' dan sistem poinnya." }, { fase: "Fase 2: Bermain (Game Play)", contoh: "Siswa berbaris memanjang, bergiliran berlari ke papan tulis untuk menuliskan kosa kata secara estafet dalam waktu 5 menit." }, { fase: "Fase 3: Refleksi Pengalaman", contoh: "Siswa mengatur napas, guru bertanya bagaimana strategi tim mereka agar bisa cepat dan tepat." }, { fase: "Fase 4: Penarikan Kesimpulan", contoh: "Guru mengoreksi kosakata di papan tulis dan memberikan penguatan makna atas kata-kata tersebut." } ],
+      'M10': [ { fase: "Fase 1: Tumbuhkan (Apersepsi)", contoh: "Guru memutar musik instrumental yang tenang dan mengajak siswa berimajinasi berada di pegunungan (materi Puisi)." }, { fase: "Fase 2: Alami", contoh: "Siswa diajak keluar kelas selama 5 menit untuk menyentuh daun dan merasakan angin untuk mendapatkan inspirasi." }, { fase: "Fase 3: Namai", contoh: "Guru menjelaskan bahwa kata-kata indah yang mewakili perasaan tadi disebut 'Diksi' dan 'Majas'." }, { fase: "Fase 4: Demonstrasikan", contoh: "Siswa mulai menulis puisi 2 bait berdasarkan pengalaman di luar kelas tadi." }, { fase: "Fase 5: Ulangi", contoh: "Beberapa siswa diminta membacakan puisinya dengan lantang." }, { fase: "Fase 6: Rayakan", contoh: "Seluruh kelas memberikan *applause* meriah dan yel-yel penyemangat untuk siswa yang berani tampil." } ],
+      'M11': [ { fase: "Fase 1: Penjelasan Konsep Umum", contoh: "Guru menjelaskan konsep Operasi Pecahan secara garis besar selama 15 menit." }, { fase: "Fase 2: Penunjukan Tutor Sebaya", contoh: "Guru membagi kelompok dan menunjuk 1 siswa yang memiliki pemahaman cepat (Tutor) di setiap kelompok." }, { fase: "Fase 3: Proses Bimbingan Sebaya", contoh: "Tutor sebaya mengajarkan ulang cara menyamakan penyebut kepada teman sekelompoknya menggunakan bahasa mereka sendiri." }, { fase: "Fase 4: Konfirmasi Pemahaman", contoh: "Anggota (bukan tutor) ditunjuk secara acak untuk mengerjakan soal di papan tulis." }, { fase: "Fase 5: Evaluasi & Klarifikasi", contoh: "Guru mengklarifikasi jika ada langkah tutor yang keliru dan memberikan penekanan konsep." } ],
+      'M12': [ { fase: "Fase 1: Penyajian Kelas", contoh: "Guru menyajikan materi Sejarah Kemerdekaan menggunakan presentasi." }, { fase: "Fase 2: Belajar Kelompok", contoh: "Siswa kembali ke kelompoknya untuk saling menguji hafalan tokoh dan tahun kejadian (drill & practice)." }, { fase: "Fase 3: Permainan", contoh: "Setiap perwakilan kelompok maju ke meja turnamen untuk mengambil kartu soal secara acak." }, { fase: "Fase 4: Turnamen", contoh: "Siswa beradu cepat menjawab kartu soal. Jika benar mendapat skor untuk tim asalnya." }, { fase: "Fase 5: Penghargaan Kelompok", contoh: "Skor diakumulasi, guru memberikan predikat 'Super Team', 'Great Team', dan 'Good Team'." } ],
+      'M13': [ { fase: "Fase 1: Kelompok Asal", contoh: "Siswa dibagi menjadi kelompok beranggota 3 orang. Materi dibagi 3: Akar, Batang, dan Daun." }, { fase: "Fase 2: Kelompok Ahli", contoh: "Siswa yang mendapat materi 'Akar' berkumpul dengan siswa 'Akar' dari kelompok lain untuk mendalami materinya bersama." }, { fase: "Fase 3: Diskusi Ahli", contoh: "Kelompok ahli membuat catatan penting dan strategi bagaimana mengajarkannya nanti." }, { fase: "Fase 4: Mengajar di Kelompok Asal", contoh: "Siswa kembali ke kelompok asalnya. Si Ahli Akar mengajari temannya, bergantian dengan Ahli Batang dan Daun." }, { fase: "Fase 5: Evaluasi Individu", contoh: "Siswa diberi kuis tertulis mencakup seluruh materi (Akar, Batang, Daun) secara mandiri." } ],
+      'M14': [ { fase: "Fase 1: Pengalaman Konkret", contoh: "Siswa dibawa ke kebun sekolah dan langsung ditugaskan menanam biji kacang hijau di media yang berbeda (tanah vs kapas)." }, { fase: "Fase 2: Observasi Reflektif", contoh: "Selama 3 hari, siswa mengamati dan mencatat perbedaan kecepatan pertumbuhan tunas." }, { fase: "Fase 3: Konseptualisasi Abstrak", contoh: "Siswa memikirkan dan menarik teori mengapa media tanah membuat batang tumbuh lebih kuat dibanding kapas." }, { fase: "Fase 4: Eksperimentasi Aktif", contoh: "Siswa merencanakan eksperimen lanjutan dengan mencoba menambahkan pupuk cair." } ],
+      'M15': [ { fase: "Fase 1: Penilaian Kesiapan", contoh: "Guru memberikan kuesioner minat untuk mengetahui topik sains apa yang paling diminati tiap individu." }, { fase: "Fase 2: Penetapan Tujuan", contoh: "Siswa A memilih membuat proyek gunung meletus, Siswa B memilih proyek tata surya. Guru menyetujuinya." }, { fase: "Fase 3: Perencanaan Strategi", contoh: "Siswa secara mandiri membuat jadwal kapan mencari alat bahan, dan kapan merakitnya." }, { fase: "Fase 4: Pelaksanaan Mandiri", contoh: "Siswa mengeksekusi belajarnya sendiri di perpustakaan/lab. Guru memantau dari jauh." }, { fase: "Fase 5: Evaluasi Diri", contoh: "Siswa membuat video refleksi tentang seberapa puas mereka dengan hasil proyek buatannya sendiri." } ]
     };
 
     let totalWaktu = 0;
@@ -294,13 +208,15 @@
         window.location.href = "index.html"; return;
       }
       totalWaktu = parseInt(localStorage.getItem('lo_waktu')) || 90;
+      
+      // Menampilkan nama model di Alert Box
       document.getElementById('judulModel').innerText = localStorage.getItem('lo_nama_model');
+      
       document.getElementById('displayTotal').innerText = totalWaktu;
       document.getElementById('displaySisa').innerText = totalWaktu;
 
       let wadah = document.getElementById('wadahSintaks');
       
-      // MENGAMBIL DATA OBJEK (Fase & Contoh Baku)
       let daftarFase = masterSintaks[idModel] || [{fase: "Fase Inti Pembelajaran", contoh: "Tuliskan aktivitas guru dan siswa di sini..."}];
 
       daftarFase.forEach((item, index) => {
@@ -311,7 +227,8 @@
         if(index > 0 && index < daftarFase.length - 1) defaultPengalaman = "Mengaplikasikan";
         if(index === daftarFase.length - 1) defaultPengalaman = "Merefleksikan";
 
-        // MENGINJEKSIKAN CONTOH KE DALAM TEXTAREA
+        let opsiPertemuan = `<option value="1">Pertemuan Ke-1</option>`;
+
         box.innerHTML = `
           <div class="sintaks-title">${item.fase}</div>
           <div class="row">
@@ -329,6 +246,8 @@
             </div>
             <div class="col-md-2 mb-2">
               <label class="form-label text-muted">Durasi (Menit)</label>
+              <!-- Hidden Pertemuan Input karena ini draft lama -->
+              <input type="hidden" class="input-pertemuan" value="1">
               <input type="number" class="form-control input-waktu" placeholder="0" min="1" onkeyup="hitungWaktu()" onchange="hitungWaktu()" required>
             </div>
           </div>
@@ -363,11 +282,9 @@
       let btn = document.getElementById('btnSimpan');
       btn.innerHTML = 'Menyimpan ke Database... ⏳'; btn.style.opacity = '0.7'; btn.disabled = true;
 
-      // 1. Profil Pancasila
       let arrProfil = [];
       document.querySelectorAll('.profil-cb:checked').forEach(cb => arrProfil.push(cb.value));
 
-      // 2. Ekosistem & Asesmen
       let dataEkosistem = JSON.stringify({
         pendekatan: document.getElementById('pendekatan').value,
         metode: document.getElementById('metode').value,
@@ -385,7 +302,6 @@
         link_lkpd: document.getElementById('linkLkpd').value
       });
 
-      // 3. Sintaks (Menangkap hasil ketikan/editan guru)
       let arrSintaks = [];
       let boxes = document.querySelectorAll('.sintaks-box');
       boxes.forEach(box => {
@@ -397,7 +313,6 @@
         });
       });
 
-      // 4. Membungkus Payload
       let payload = {
         idModul: localStorage.getItem('lo_id_modul'),
         capaian: document.getElementById('cp').value,
@@ -423,8 +338,8 @@
           btn.innerHTML = 'Berhasil! Menyiapkan Play Mode ✨';
           btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
           
-          // Redirect ke halaman Play Mode
-          // window.location.href = "play.html";
+          localStorage.setItem('lo_sintaks_play', JSON.stringify(arrSintaks));
+          window.location.href = "play.html";
         } else {
           alert("Error Database: " + result.message);
           btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
@@ -434,6 +349,120 @@
         btn.innerHTML = 'Coba Lagi 🚀'; btn.style.opacity = '1'; btn.disabled = false;
       }
     });
+    
+    function downloadWord() {
+      let guru = localStorage.getItem('lo_guru') || "Nama Guru";
+      let nip = localStorage.getItem('lo_nip') || "-"; // Mengambil NIP
+      let sekolah = localStorage.getItem('lo_sekolah') || "Nama Sekolah";
+      let mapel = localStorage.getItem('lo_mapel') || "Mata Pelajaran";
+      let kelas = localStorage.getItem('lo_kelas') || "Kelas";
+      let model = localStorage.getItem('lo_nama_model') || "Model Pembelajaran";
+      let waktu = localStorage.getItem('lo_waktu') || "90";
+      let pertemuan = localStorage.getItem('lo_pertemuan') || "1";
+
+      let cp = document.getElementById('cp').value.replace(/\n/g, '<br>');
+      let tp = document.getElementById('tp').value.replace(/\n/g, '<br>');
+      let materi = document.getElementById('materi').value;
+      let pemantik = document.getElementById('pemantik').value;
+      let refleksi = document.getElementById('refleksi').value;
+      
+      let arrProfil = []; document.querySelectorAll('.profil-cb:checked').forEach(cb => arrProfil.push(cb.value));
+      let profil = arrProfil.join(", ");
+
+      let jenisAs = document.getElementById('jenisAsesmen').value;
+      let metodeAs = document.getElementById('metodeAsesmen').value;
+      let instrumenAs = document.getElementById('instrumenAsesmen').value;
+
+      let sintaksHTML = "";
+      document.querySelectorAll('.sintaks-box').forEach((box, index) => {
+        let fase = box.querySelector('.sintaks-title').innerText;
+        let aktivitas = box.querySelector('.input-aktivitas').value.replace(/\n/g, '<br>');
+        let p_ke = box.querySelector('.input-pertemuan').value;
+        let durasi = box.querySelector('.input-waktu').value;
+        
+        sintaksHTML += `
+          <tr>
+            <td style="border: 1px solid black; padding: 5px; text-align: center;">${index + 1}</td>
+            <td style="border: 1px solid black; padding: 5px;"><b>${fase}</b></td>
+            <td style="border: 1px solid black; padding: 5px;">${aktivitas}</td>
+            <td style="border: 1px solid black; padding: 5px; text-align: center;">Pert. ${p_ke}<br><b>${durasi} Mnt</b></td>
+          </tr>
+        `;
+      });
+
+      let htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>RPP Modul Ajar</title></head>
+        <body style="font-family: 'Times New Roman', serif;">
+          <h2 style="text-align: center;">RENCANA PELAKSANAAN PEMBELAJARAN (RPP) / MODUL AJAR</h2>
+          <h4 style="text-align: center; border-bottom: 2px solid black; padding-bottom: 10px;">KURIKULUM MERDEKA</h4>
+          
+          <table style="width: 100%; margin-bottom: 20px;">
+            <tr><td style="width: 25%;"><b>Nama Guru</b></td><td style="width: 5%;">:</td><td>${guru}</td></tr>
+            <tr><td><b>NIP</b></td><td>:</td><td>${nip}</td></tr>
+            <tr><td><b>Nama Sekolah</b></td><td>:</td><td>${sekolah}</td></tr>
+            <tr><td><b>Mata Pelajaran</b></td><td>:</td><td>${mapel}</td></tr>
+            <tr><td><b>Kelas</b></td><td>:</td><td>${kelas}</td></tr>
+            <tr><td><b>Model Pembelajaran</b></td><td>:</td><td>${model}</td></tr>
+            <tr><td><b>Alokasi Waktu</b></td><td>:</td><td>${waktu} Menit x ${pertemuan} Pertemuan</td></tr>
+          </table>
+
+          <h3>A. KOMPONEN INTI</h3>
+          <p><b>1. Capaian Pembelajaran (CP)</b><br>${cp}</p>
+          <p><b>2. Tujuan Pembelajaran (TP)</b><br>${tp}</p>
+          <p><b>3. Materi Esensial</b><br>${materi}</p>
+          <p><b>4. Pertanyaan Pemantik</b><br>${pemantik}</p>
+          <p><b>5. Profil Pelajar Pancasila</b><br>${profil}</p>
+
+          <h3>B. LANGKAH-LANGKAH PEMBELAJARAN</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid black; padding: 5px; width: 5%;">No</th>
+                <th style="border: 1px solid black; padding: 5px; width: 25%;">Fase / Tahapan</th>
+                <th style="border: 1px solid black; padding: 5px; width: 55%;">Aktivitas Guru & Siswa</th>
+                <th style="border: 1px solid black; padding: 5px; width: 15%;">Waktu</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sintaksHTML}
+            </tbody>
+          </table>
+
+          <h3>C. ASESMEN & REFLEKSI</h3>
+          <p><b>1. Rencana Asesmen</b><br>Asesmen ${jenisAs} menggunakan metode ${metodeAs} dengan instrumen ${instrumenAs}.</p>
+          <p><b>2. Refleksi Pembelajaran</b><br>${refleksi}</p>
+
+          <br><br>
+          <table style="width: 100%;">
+            <tr>
+              <td style="width: 60%;"></td>
+              <td style="width: 40%; text-align: center;">
+                Mengetahui,<br>Guru Mata Pelajaran<br><br><br><br>
+                <b><u>${guru}</u></b><br>
+                NIP. ${nip}
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `;
+
+      let blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+      let url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(htmlContent);
+      let filename = 'RPP_' + mapel.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.doc';
+      
+      let downloadLink = document.createElement("a");
+      document.body.appendChild(downloadLink);
+      if(navigator.msSaveOrOpenBlob){
+        navigator.msSaveOrOpenBlob(blob, filename);
+      } else {
+        downloadLink.href = url;
+        downloadLink.download = filename;
+        downloadLink.click();
+      }
+      document.body.removeChild(downloadLink);
+    }
   </script>
 </body>
 </html>
