@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dasbor Supervisi Kepala Sekolah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #1e272e; color: #d2dae2; min-height: 100vh; padding: 40px 15px; }
+    .header-title { font-weight: 700; color: #0fbcf9; text-align: center; margin-bottom: 20px; font-size: 2rem;}
+    .glass-container { background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; max-width: 1000px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    
+    /* Panel Pemilihan Guru */
+    .teacher-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; border: 1px solid transparent; transition: 0.3s;}
+    .teacher-card:hover { border-color: #0fbcf9; background: rgba(15, 188, 249, 0.1); }
+    .t-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .t-meta { font-size: 0.85rem; color: #808e9b; }
+
+    /* Panel Instrumen Supervisi */
+    #panelSupervisi { display: none; }
+    .sintaks-eval-box { background: white; color: #1e272e; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid #0fbcf9;}
+    .s-title { font-weight: 700; font-size: 1.1rem; color: #2c3e50; margin-bottom: 5px;}
+    .s-desc { font-size: 0.9rem; color: #485460; margin-bottom: 15px; font-style: italic; background: #f1f2f6; padding: 10px; border-radius: 5px;}
+    
+    .rating-group { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;}
+    .rating-item { display: flex; align-items: center; gap: 5px; font-size: 0.85rem; font-weight: 600; cursor: pointer;}
+    .comment-box { width: 100%; border: 1px solid #d2dae2; border-radius: 8px; padding: 10px; font-size: 0.9rem; }
+    
+    .final-section { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.2);}
+    .final-section label { color: #0fbcf9; font-weight: 600; margin-bottom: 5px;}
+    .final-textarea { background: rgba(255, 255, 255, 0.9); border: none; border-radius: 8px; width: 100%; padding: 15px; margin-bottom: 20px;}
+    
+    .btn-supervisi { background: #0fbcf9; color: #1e272e; font-weight: 700; padding: 15px 30px; border-radius: 50px; border: none; width: 100%; transition: 0.3s; font-size: 1.1rem;}
+    .btn-supervisi:hover { background: #00d8d6; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(15, 188, 249, 0.3);}
+    .btn-word { background: #ff3f34; color: white; border: none; padding: 15px; border-radius: 50px; width: 100%; font-weight: 700; margin-top: 15px;}
+  </style>
+</head>
+<body>
+
+  <div class="glass-container">
+    <h1 class="header-title">📋 Dasbor Supervisi Akademik</h1>
+    <p class="text-center text-muted mb-4">Pilih kelas yang sedang Live untuk memulai observasi.</p>
+
+    <!-- PANEL 1: DAFTAR GURU -->
+    <div id="panelList">
+      <input type="text" id="cariGuru" class="form-control mb-4" placeholder="🔍 Cari nama guru atau mapel..." style="background: rgba(255,255,255,0.1); color: white; border: none; border-radius: 20px; padding: 15px;" onkeyup="filterGuru()">
+      <div id="loading" class="text-center">Mengambil data kelas aktif... ⏳</div>
+      <div class="row" id="wadahGuru"></div>
+    </div>
+
+    <!-- PANEL 2: INSTRUMEN PENILAIAN -->
+    <div id="panelSupervisi">
+      <button class="btn btn-sm btn-outline-light mb-4" onclick="kembali()">⬅ Kembali ke Daftar</button>
+      <div style="border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; margin-bottom: 30px;">
+        <h3 style="color: white; margin:0;" id="supGuru">Nama Guru</h3>
+        <div style="color: #0fbcf9; font-weight: 600;" id="supMapel">Mata Pelajaran - Kelas</div>
+      </div>
+
+      <form id="formPenilaian">
+        <h4 style="color: #0fbcf9; margin-bottom: 20px;">A. Observasi Langkah Pembelajaran (Sintaks)</h4>
+        <div id="wadahInstrumen"></div>
+
+        <div class="final-section">
+          <h4>B. Catatan Akhir Kepala Sekolah</h4>
+          <label>Refleksi & Umpan Balik Keseluruhan</label>
+          <textarea class="final-textarea" id="inUmpanBalik" rows="3" required placeholder="Catatan kelebihan dan kekurangan secara umum..."></textarea>
+          
+          <label>Rencana Tindak Lanjut (RTL)</label>
+          <textarea class="final-textarea" id="inRTL" rows="3" required placeholder="Saran pelatihan, perbaikan metode, dll..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-supervisi mt-4" id="btnSimpanSup">💾 Simpan Hasil Supervisi ke Database</button>
+        <button type="button" class="btn-word" onclick="downloadLaporanWord()">📝 Download Laporan Supervisi (Word)</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzYzp1rzv10ya5yMA9f8YfISo31eIL-DuC6cuZKvDF79ytrUMH4Ssmsl4-KVhN-KA4wSg/exec";
+    let dataGlobal = [];
+    let modulAktif = null;
+
+    document.addEventListener("DOMContentLoaded", async function() {
+      try {
+        const res = await fetch(API_URL + "?action=getBank&t=" + new Date().getTime());
+        dataGlobal = await res.json();
+        document.getElementById('loading').style.display = 'none';
+        renderDaftarGuru(dataGlobal);
+      } catch (e) {
+        document.getElementById('loading').innerText = "Gagal memuat data.";
+      }
+    });
+
+    function renderDaftarGuru(data) {
+      let wadah = document.getElementById('wadahGuru');
+      wadah.innerHTML = "";
+      data.forEach(item => {
+        // Hanya tampilkan RPP yang sudah diisi sintaksnya (bukan draft kosong)
+        if(item.sintaks && item.sintaks.length > 5) {
+          wadah.innerHTML += `
+            <div class="col-md-6">
+              <div class="teacher-card" onclick='bukaSupervisi(${JSON.stringify(item)})'>
+                <div class="t-name">👤 ${item.guru}</div>
+                <div class="t-meta">📚 ${item.mapel} (Kelas ${item.kelas})</div>
+                <div class="t-meta">📅 ${new Date(item.tanggal).toLocaleDateString('id-ID')}</div>
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
+
+    function filterGuru() {
+      let keyword = document.getElementById('cariGuru').value.toLowerCase();
+      let terfilter = dataGlobal.filter(item => item.guru.toLowerCase().includes(keyword) || item.mapel.toLowerCase().includes(keyword));
+      renderDaftarGuru(terfilter);
+    }
+
+    function kembali() {
+      document.getElementById('panelSupervisi').style.display = 'none';
+      document.getElementById('panelList').style.display = 'block';
+    }
+
+    function bukaSupervisi(item) {
+      modulAktif = item; // Simpan ke variabel global agar bisa dipakai saat download word
+      document.getElementById('panelList').style.display = 'none';
+      document.getElementById('panelSupervisi').style.display = 'block';
+      
+      document.getElementById('supGuru').innerText = item.guru;
+      document.getElementById('supMapel').innerText = `${item.mapel} - Kelas ${item.kelas}`;
+
+      let wadah = document.getElementById('wadahInstrumen');
+      wadah.innerHTML = "";
+      
+      let arrSintaks = JSON.parse(item.sintaks);
+      arrSintaks.forEach((s, idx) => {
+        let nameGroup = "skor_" + idx;
+        wadah.innerHTML += `
+          <div class="sintaks-eval-box">
+            <div class="s-title">${idx + 1}. ${s.fase}</div>
+            <div class="s-desc"><b>Rencana Guru:</b> ${s.aktivitas}</div>
+            
+            <div class="rating-group">
+              <label class="rating-item"><input type="radio" name="${nameGroup}" value="Sangat Baik" required> Sangat Baik</label>
+              <label class="rating-item"><input type="radio" name="${nameGroup}" value="Baik"> Baik</label>
+              <label class="rating-item"><input type="radio" name="${nameGroup}" value="Cukup"> Cukup</label>
+              <label class="rating-item"><input type="radio" name="${nameGroup}" value="Kurang"> Kurang</label>
+              <label class="rating-item"><input type="radio" name="${nameGroup}" value="Tak Terlihat"> Tak Terlihat</label>
+            </div>
+            
+            <input type="text" class="comment-box" id="komentar_${idx}" placeholder="Komentar / catatan untuk fase ini (Opsional)...">
+            <input type="hidden" id="faseName_${idx}" value="${s.fase}">
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById('formPenilaian').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      let btn = document.getElementById('btnSimpanSup');
+      btn.innerHTML = "Menyimpan... ⏳"; btn.disabled = true;
+
+      // Kumpulkan Nilai Sintaks
+      let arrSintaks = JSON.parse(modulAktif.sintaks);
+      let hasilNilai = [];
+      
+      for(let i=0; i<arrSintaks.length; i++) {
+        let skorChecked = document.querySelector(`input[name="skor_${i}"]:checked`).value;
+        let komen = document.getElementById(`komentar_${i}`).value;
+        let faseNm = document.getElementById(`faseName_${i}`).value;
+        
+        hasilNilai.push({
+          fase: faseNm,
+          skor: skorChecked,
+          komentar: komen
+        });
+      }
+
+      let payload = {
+        action: "supervisi",
+        idModul: modulAktif.idModul,
+        nilai_sintaks: hasilNilai,
+        umpan_balik: document.getElementById('inUmpanBalik').value,
+        rtl: document.getElementById('inRTL').value
+      };
+
+      try {
+        const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const result = await response.json();
+        
+        if (result.status === "success") {
+          alert("Luar Biasa! Evaluasi Supervisi berhasil disimpan di Database Guru.");
+          btn.innerHTML = "💾 Tersimpan!";
+        } else {
+          alert("Error: " + result.message); btn.innerHTML = "💾 Simpan Hasil Supervisi"; btn.disabled = false;
+        }
+      } catch (error) {
+        alert("Gagal koneksi server."); btn.innerHTML = "💾 Simpan Hasil Supervisi"; btn.disabled = false;
+      }
+    });
+
+    // FUNGSI DOWNLOAD WORD GABUNGAN (RPP + SUPERVISI)
+    function downloadLaporanWord() {
+      if(!modulAktif) return;
+      
+      let arrSintaks = JSON.parse(modulAktif.sintaks);
+      let htmlTabelSupervisi = "";
+      
+      for(let i=0; i<arrSintaks.length; i++) {
+        // Ambil data yang diceklis saat ini dari layar kepsek
+        let radioEl = document.querySelector(`input[name="skor_${i}"]:checked`);
+        let skor = radioEl ? radioEl.value : "-";
+        let komen = document.getElementById(`komentar_${i}`).value;
+        
+        htmlTabelSupervisi += `
+          <tr>
+            <td style="border: 1px solid black; padding: 5px; text-align: center;">${i + 1}</td>
+            <td style="border: 1px solid black; padding: 5px;"><b>${arrSintaks[i].fase}</b><br><i>${arrSintaks[i].aktivitas}</i></td>
+            <td style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">${skor}</td>
+            <td style="border: 1px solid black; padding: 5px;">${komen}</td>
+          </tr>
+        `;
+      }
+
+      let umpanBalik = document.getElementById('inUmpanBalik').value.replace(/\n/g, '<br>');
+      let rtl = document.getElementById('inRTL').value.replace(/\n/g, '<br>');
+
+      let htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>Laporan Supervisi</title></head>
+        <body style="font-family: 'Times New Roman', serif;">
+          <h2 style="text-align: center;">INSTRUMEN SUPERVISI KLINIS PEMBELAJARAN</h2>
+          <h4 style="text-align: center; border-bottom: 2px solid black; padding-bottom: 10px;">KURIKULUM MERDEKA</h4>
+          
+          <table style="width: 100%; margin-bottom: 20px;">
+            <tr><td style="width: 25%;"><b>Nama Guru</b></td><td style="width: 5%;">:</td><td>${modulAktif.guru}</td></tr>
+            <tr><td><b>Mata Pelajaran</b></td><td>:</td><td>${modulAktif.mapel}</td></tr>
+            <tr><td><b>Kelas</b></td><td>:</td><td>${modulAktif.kelas}</td></tr>
+            <tr><td><b>Tanggal Observasi</b></td><td>:</td><td>${new Date().toLocaleDateString('id-ID')}</td></tr>
+          </table>
+
+          <h3>A. HASIL OBSERVASI PELAKSANAAN PEMBELAJARAN</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="background-color: #f2f2f2;">
+                <th style="border: 1px solid black; padding: 5px; width: 5%;">No</th>
+                <th style="border: 1px solid black; padding: 5px; width: 45%;">Tahapan & Aktivitas Guru</th>
+                <th style="border: 1px solid black; padding: 5px; width: 20%;">Penilaian</th>
+                <th style="border: 1px solid black; padding: 5px; width: 30%;">Catatan Observasi</th>
+              </tr>
+            </thead>
+            <tbody>${htmlTabelSupervisi}</tbody>
+          </table>
+
+          <h3>B. CATATAN KEPALA SEKOLAH</h3>
+          <p><b>1. Refleksi & Umpan Balik:</b><br>${umpanBalik}</p>
+          <p><b>2. Rencana Tindak Lanjut (RTL):</b><br>${rtl}</p>
+
+          <br><br><br>
+          <table style="width: 100%;">
+            <tr>
+              <td style="width: 50%; text-align: center;">
+                Guru yang Disupervisi,<br><br><br><br><br>
+                <b><u>${modulAktif.guru}</u></b>
+              </td>
+              <td style="width: 50%; text-align: center;">
+                Kepala Sekolah / Supervisor,<br><br><br><br><br>
+                <b><u>.......................................</u></b><br>
+                NIP. ..........................
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `;
+
+      let blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+      let url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(htmlContent);
+      let filename = 'Supervisi_' + modulAktif.guru.replace(/\s/g, '_') + '.doc';
+      
+      let downloadLink = document.createElement("a");
+      document.body.appendChild(downloadLink);
+      if(navigator.msSaveOrOpenBlob){ navigator.msSaveOrOpenBlob(blob, filename); } 
+      else { downloadLink.href = url; downloadLink.download = filename; downloadLink.click(); }
+      document.body.removeChild(downloadLink);
+    }
+  </script>
+</body>
+</html>

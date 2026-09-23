@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank RPP - Learning Organizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: #f1f2f6; min-height: 100vh; padding: 40px 20px; }
+    .header-title { font-weight: 700; color: #2c3e50; text-align: center; margin-bottom: 30px; font-size: 2.5rem;}
+    .search-box { max-width: 600px; margin: 0 auto 40px auto; }
+    .search-box input { border-radius: 30px; padding: 15px 25px; border: 2px solid #dfe4ea; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .search-box input:focus { border-color: #667eea; box-shadow: 0 5px 15px rgba(102,126,234,0.2); outline: none; }
+    .rpp-card { background: white; border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; border-top: 5px solid #667eea; }
+    .rpp-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(102,126,234,0.15); }
+    .rpp-mapel { font-weight: 700; font-size: 1.2rem; color: #2c3e50; margin-bottom: 5px;}
+    .rpp-meta { font-size: 0.85rem; color: #7f8fa6; margin-bottom: 15px; }
+    .badge-model { background: #eccc68; color: #2f3542; padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.8rem;}
+    .btn-play { background: #ff4757; color: white; border: none; border-radius: 30px; padding: 8px 20px; font-weight: 600; font-size: 0.9rem;}
+    .btn-doc { background: #2ed573; color: white; border: none; border-radius: 30px; padding: 8px 20px; font-weight: 600; font-size: 0.9rem;}
+    #loading { text-align: center; font-weight: 600; color: #7f8fa6; margin-top: 50px; font-size: 1.2rem;}
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="header-title">📚 Bank RPP & Inspirasi</h1>
+    <div class="search-box">
+      <input type="text" class="form-control" id="searchInput" onkeyup="filterData()" placeholder="🔍 Cari Mata Pelajaran, Kelas, atau Nama Guru...">
+    </div>
+    <div id="loading">Membongkar brankas data dari server... ⏳</div>
+    <div class="row" id="wadahKartu"></div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzYzp1rzv10ya5yMA9f8YfISo31eIL-DuC6cuZKvDF79ytrUMH4Ssmsl4-KVhN-KA4wSg/exec";
+    
+    const kamusModel = {
+      'M01': 'Problem-Based Learning (PBL)', 'M02': 'Project-Based Learning (PjBL)', 'M03': 'Cooperative Learning', 'M04': 'Discovery / Inquiry', 'M05': 'Contextual Teaching (CTL)',
+      'M06': 'Direct Instruction', 'M07': 'Flipped Classroom', 'M08': 'Blended Learning', 'M09': 'Game-Based Learning', 'M10': 'Quantum Learning',
+      'M11': 'Peer Teaching', 'M12': 'Team Games Tournament', 'M13': 'Jigsaw', 'M14': 'Experiential Learning', 'M15': 'Self-Directed Learning'
+    };
+
+    let dataRPPGlobal = [];
+
+    document.addEventListener("DOMContentLoaded", async function() {
+      try {
+        const response = await fetch(API_URL + "?action=getBank&t=" + new Date().getTime());
+        dataRPPGlobal = await response.json();
+        document.getElementById('loading').style.display = 'none';
+        renderKartu(dataRPPGlobal);
+      } catch (error) { document.getElementById('loading').innerText = "Gagal mengambil data."; }
+    });
+
+    function renderKartu(data) {
+      let wadah = document.getElementById('wadahKartu');
+      wadah.innerHTML = "";
+      if(data.length === 0) { wadah.innerHTML = "<div class='text-center w-100 mt-4 text-muted'>Tidak ada data.</div>"; return; }
+
+      data.forEach(item => {
+        let namaModel = kamusModel[item.idModel] || item.idModel;
+        let strTgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'});
+
+        let kartu = `
+          <div class="col-md-6 col-lg-4">
+            <div class="rpp-card">
+              <span class="badge-model mb-2 d-inline-block">${namaModel}</span>
+              <div class="rpp-mapel">${item.mapel} - Kelas ${item.kelas}</div>
+              <div class="rpp-meta">👤 ${item.guru} <br>🏫 ${item.sekolah} <br>📅 ${strTgl}</div>
+              
+              <div class="mt-3 d-flex gap-2">
+                <button class="btn-play w-50" onclick='bukaPlayMode(${JSON.stringify(item)})'>🚀 Play Live</button>
+                <button class="btn-doc w-50" onclick='downloadWordDariBank(${JSON.stringify(item)})'>📝 Word</button>
+              </div>
+              <button class="btn w-100 mt-2" style="background: #2c3e50; color: white; border-radius: 30px; font-weight: 600; font-size: 0.9rem;" onclick='salinTemplate(${JSON.stringify(item)})'>✏️ Salin & Edit Template Ini</button>
+            </div>
+          </div>
+        `;
+        wadah.innerHTML += kartu;
+      });
+    }
+
+    function filterData() {
+      let keyword = document.getElementById('searchInput').value.toLowerCase();
+      let filterTerfilter = dataRPPGlobal.filter(item => {
+        return item.mapel.toLowerCase().includes(keyword) || item.guru.toLowerCase().includes(keyword) || item.kelas.toLowerCase().includes(keyword);
+      });
+      renderKartu(filterTerfilter);
+    }
+
+    function bukaPlayMode(item) {
+      let konfirmasi = confirm(`Mainkan skenario kelas ini secara Live?`);
+      if(konfirmasi) {
+        localStorage.setItem('lo_sintaks_play', item.sintaks);
+        localStorage.setItem('lo_nama_model', kamusModel[item.idModel] || item.idModel);
+        
+        // +++ BARIS BARU: Menitipkan Nilai Supervisi ke Memori Play Mode +++
+        localStorage.setItem('lo_supervisi_data', item.nilaiSup);
+        
+        window.location.href = "play.html";
+      }
+    }
+
+    // FUNGSI INTI: MENYALIN DATA DAN MENUJU INDEX UNTUK DIEDIT
+    function salinTemplate(item) {
+      localStorage.setItem('lo_template_data', JSON.stringify(item));
+      window.location.href = "index.html";
+    }
+
+    function downloadWordDariBank(item) {
+      let namaModel = kamusModel[item.idModel] || item.idModel;
+      let e = JSON.parse(item.ekosistem || "{}"); let a = JSON.parse(item.asesmen || "{}"); let sintaksArr = JSON.parse(item.sintaks || "[]");
+      let sintaksHTML = "";
+      sintaksArr.forEach((s, index) => {
+        sintaksHTML += `<tr><td style="border: 1px solid black; padding: 5px; text-align: center;">${index + 1}</td><td style="border: 1px solid black; padding: 5px;"><b>${s.fase}</b></td><td style="border: 1px solid black; padding: 5px;">${(s.aktivitas || "").replace(/\n/g, '<br>')}</td><td style="border: 1px solid black; padding: 5px; text-align: center;">Pert. ${s.pertemuan || 1}<br><b>${s.durasi} Mnt</b></td></tr>`;
+      });
+
+      let htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>RPP</title></head>
+        <body style="font-family: 'Times New Roman', serif;">
+          <h2 style="text-align: center;">RENCANA PELAKSANAAN PEMBELAJARAN (RPP)</h2>
+          <h4 style="text-align: center; border-bottom: 2px solid black; padding-bottom: 10px;">KURIKULUM MERDEKA</h4>
+          <table style="width: 100%; margin-bottom: 20px;">
+            <tr><td style="width: 25%;"><b>Nama Guru</b></td><td style="width: 5%;">:</td><td>${item.guru}</td></tr>
+            <tr><td><b>Nama Sekolah</b></td><td>:</td><td>${item.sekolah}</td></tr>
+            <tr><td><b>Mata Pelajaran</b></td><td>:</td><td>${item.mapel}</td></tr>
+            <tr><td><b>Kelas</b></td><td>:</td><td>${item.kelas}</td></tr>
+            <tr><td><b>Model Pembelajaran</b></td><td>:</td><td>${namaModel}</td></tr>
+          </table>
+          <h3>A. KOMPONEN INTI</h3>
+          <p><b>1. Capaian Pembelajaran</b><br>${(item.cp || "").replace(/\n/g, '<br>')}</p>
+          <p><b>2. Tujuan Pembelajaran</b><br>${(item.tp || "").replace(/\n/g, '<br>')}</p>
+          <p><b>3. Materi Esensial</b><br>${item.materi || ""}</p>
+          <p><b>4. Pertanyaan Pemantik</b><br>${item.pemantik || ""}</p>
+          <h3>B. LANGKAH-LANGKAH PEMBELAJARAN</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead><tr style="background-color: #f2f2f2;"><th style="border: 1px solid black; padding: 5px;">No</th><th style="border: 1px solid black; padding: 5px;">Fase / Tahapan</th><th style="border: 1px solid black; padding: 5px;">Aktivitas Guru & Siswa</th><th style="border: 1px solid black; padding: 5px;">Waktu</th></tr></thead>
+            <tbody>${sintaksHTML}</tbody>
+          </table>
+        </body></html>`;
+
+      let blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+      let url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(htmlContent);
+      let filename = 'RPP_' + item.guru.replace(/\s/g, '_') + '.doc';
+      let downloadLink = document.createElement("a");
+      document.body.appendChild(downloadLink);
+      if(navigator.msSaveOrOpenBlob){ navigator.msSaveOrOpenBlob(blob, filename); } 
+      else { downloadLink.href = url; downloadLink.download = filename; downloadLink.click(); }
+      document.body.removeChild(downloadLink);
+    }
+  </script>
+</body>
+</html>
