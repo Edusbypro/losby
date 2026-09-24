@@ -33,13 +33,11 @@
   <div class="glass-container">
     <h2 class="mb-2">📝 Detail Pembelajaran</h2>
     
-    <!-- KOTAK PENGINGAT MODEL PEMBELAJARAN (MENCOLOK) -->
     <div class="alert alert-primary text-center mb-4" style="border-radius: 15px; border: 2px dashed #667eea; background: rgba(255,255,255,0.7); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
       <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #576574; font-weight: 600;">Model Pembelajaran Terpilih:</span><br>
       <strong id="judulModel" style="font-size: 1.25rem; color: #2c3e50;">Memuat Model...</strong>
     </div>
 
-    <!-- KALKULATOR MULTI-PERTEMUAN -->
     <div id="timeTracker">
       <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Kalkulator Sisa Waktu</div>
       <div id="wadahTracker"></div>
@@ -70,15 +68,19 @@
             <textarea class="form-control" id="pemantik" rows="2" required></textarea>
           </div>
         </div>
+        
+        <!-- DIROMBAK: DIMENSI PROFIL LULUSAN 8 POIN -->
         <div class="mb-2">
-          <label class="form-label">Dimensi Profil Pelajar Pancasila</label>
+          <label class="form-label">Dimensi Profil Lulusan <span style="font-weight:normal; font-size:0.8rem; color:#666;">(Arahkan mouse ke teks untuk melihat penjelasan)</span></label>
           <div class="row px-2">
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Beriman & Bertaqwa" type="checkbox"> <label class="form-check-label">Beriman & Bertaqwa</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bergotong Royong" type="checkbox"> <label class="form-check-label">Bergotong Royong</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Bernalar Kritis" type="checkbox"> <label class="form-check-label">Bernalar Kritis</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Mandiri" type="checkbox"> <label class="form-check-label">Mandiri</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Kreatif" type="checkbox"> <label class="form-check-label">Kreatif</label></div></div>
-            <div class="col-6 col-md-4"><div class="form-check"><input class="form-check-input profil-cb" value="Berkebinekaan Global" type="checkbox"> <label class="form-check-label">Berkebinekaan Global</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Karakter Religius & Akhlak Mulia" type="checkbox"> <label class="form-check-label" title="Menumbuhkan karakter religius, akhlak mulia, serta kebiasaan bersyukur dan berdoa.">Religius & Akhlak</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Kewargaan" type="checkbox"> <label class="form-check-label" title="Memahami peran diri dalam lingkungan sosial, taat aturan, serta menghargai perbedaan.">Kewargaan</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Penalaran Kritis" type="checkbox"> <label class="form-check-label" title="Kemampuan berpikir logis, analitis, dan reflektif dalam memproses informasi serta memecahkan masalah.">Penalaran Kritis</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Kreativitas" type="checkbox"> <label class="form-check-label" title="Berani mengeksplorasi ide baru dan menciptakan sesuatu yang bermanfaat melalui imajinasi.">Kreativitas</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Kolaborasi" type="checkbox"> <label class="form-check-label" title="Kemampuan bekerja sama dengan orang lain untuk menyelesaikan tugas bersama.">Kolaborasi</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Kemandirian" type="checkbox"> <label class="form-check-label" title="Bersikap percaya diri, disiplin, dan bertanggung jawab atas diri sendiri.">Kemandirian</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Kesehatan" type="checkbox"> <label class="form-check-label" title="Menjaga kebersihan, bergerak aktif, serta memilih pola hidup dan makanan sehat.">Kesehatan</label></div></div>
+            <div class="col-6 col-md-3 mb-2"><div class="form-check"><input class="form-check-input profil-cb" value="Komunikasi" type="checkbox"> <label class="form-check-label" title="Mampu menyampaikan pendapat dengan sopan dan mendengarkan orang lain secara efektif.">Komunikasi</label></div></div>
           </div>
         </div>
       </div>
@@ -159,7 +161,6 @@
       
       document.getElementById('judulModel').innerText = localStorage.getItem('lo_nama_model');
       
-      // AUTO FILL LOGIC DARI BANK RPP
       let templateStr = localStorage.getItem('lo_template_data');
       let tData = null;
       if(templateStr) { 
@@ -196,17 +197,14 @@
         } catch(e) {}
       }
 
-      // RENDER TRACKER WAKTU DI ATAS
       renderTracker();
-
-      // RENDER KOTAK SINTAKS
       let wadah = document.getElementById('wadahSintaks');
       let daftarFase = [];
       
       if(tData && tData.sintaks) {
-        daftarFase = JSON.parse(tData.sintaks); // Data dari Bank
+        daftarFase = JSON.parse(tData.sintaks); 
       } else {
-        daftarFase = masterSintaks[idModel] || [{fase: "Fase Inti Pembelajaran", contoh: "Tuliskan aktivitas..."}]; // Data Default
+        daftarFase = masterSintaks[idModel] || [{fase: "Fase Inti Pembelajaran", contoh: "Tuliskan aktivitas..."}];
       }
 
       daftarFase.forEach((item, index) => {
@@ -253,9 +251,7 @@
         wadah.appendChild(box);
       });
 
-      // Menghapus template dari memori agar pembuatan RPP baru normal
       if(tData) { localStorage.removeItem('lo_template_data'); }
-      
       hitungWaktu();
     });
 
@@ -411,7 +407,7 @@
           <p><b>2. Tujuan Pembelajaran (TP)</b><br>${tp}</p>
           <p><b>3. Materi Esensial</b><br>${materi}</p>
           <p><b>4. Pertanyaan Pemantik</b><br>${pemantik}</p>
-          <p><b>5. Profil Pelajar Pancasila</b><br>${profil}</p>
+          <p><b>5. Dimensi Profil Lulusan</b><br>${profil}</p>
 
           <h3>B. LANGKAH-LANGKAH PEMBELAJARAN</h3>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
